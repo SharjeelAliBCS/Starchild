@@ -1,0 +1,120 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://Entities/Player/Player.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Lighting/light_sphere.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Graphics/Sprites/player.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10.6877, 22.6994 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 80, 0, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 160, 0, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 240, 0, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 4 )
+region = Rect2( 80, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 4 )
+region = Rect2( 160, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 4 )
+region = Rect2( 80, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 4 )
+region = Rect2( 160, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 240, 120, 80, 120 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 320, 120, 80, 120 )
+
+[sub_resource type="SpriteFrames" id=15]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "idle",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 6 ) ],
+"loop": false,
+"name": "jump",
+"speed": 0.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "walk",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"loop": true,
+"name": "run",
+"speed": 15.0
+} ]
+
+[node name="Player" type="KinematicBody2D"]
+scale = Vector2( 0.75, 0.75 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.374577, -0.0135489 )
+scale = Vector2( 2, 1.5 )
+shape = SubResource( 1 )
+
+[node name="player_sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 3.46592, -9.51702 )
+scale = Vector2( 0.75, 0.75 )
+frames = SubResource( 15 )
+animation = "idle"
+frame = 3
+playing = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( -5.76144, -103.646 )
+current = true
+limit_left = 0
+limit_top = 50
+limit_right = 1280
+limit_bottom = 325
+smoothing_enabled = true
+smoothing_speed = 10.0
+editor_draw_limits = true
+
+[node name="player_light" type="Light2D" parent="."]
+position = Vector2( 0.993595, -22.8091 )
+scale = Vector2( 0.1946, 0.186626 )
+texture = ExtResource( 3 )
+range_layer_min = -4

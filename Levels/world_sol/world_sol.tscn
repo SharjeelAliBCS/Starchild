@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Levels/World.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Graphics/Backgrounds/backgound_sol.png" type="Texture" id=2]
+[ext_resource path="res://Levels/world_sol/WorldSol.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Graphics/Backgrounds/background_distant_sol.png" type="Texture" id=4]
+
+[node name="WorldSol" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="Sprite" parent="Background" index="0"]
+texture = ExtResource( 2 )
+
+[node name="ParallaxLayer" parent="ParallaxBackground" index="0"]
+motion_mirroring = Vector2( 300, 0 )
+
+[node name="CanvasModulate2" parent="ParallaxBackground/ParallaxLayer" index="0"]
+visible = false
+
+[node name="Sprite" parent="ParallaxBackground/ParallaxLayer" index="1"]
+modulate = Color( 1, 1, 1, 1 )
+position = Vector2( 0, 790 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+
+[node name="CanvasModulate" parent="." index="4"]
+visible = false
+
+[node name="Interface" parent="." index="5"]
+margin_left = -8.75143
+margin_top = 25.5425
+margin_right = -8.75143
+margin_bottom = 25.5425

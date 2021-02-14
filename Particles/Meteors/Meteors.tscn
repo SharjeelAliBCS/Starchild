@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 2
+emission_box_extents = Vector3( 500, 1, 1 )
+flag_disable_z = true
+gravity = Vector3( 100, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = -446.9
+angle_random = 0.23
+scale = 5.0
+scale_random = 1.0
+color = Color( 0.286275, 0.207843, 0.121569, 1 )
+anim_speed = 10.0
+anim_speed_random = 0.86
+anim_offset = 1.0
+anim_offset_random = 0.32
+
+[node name="Meteors" type="Particles2D"]
+position = Vector2( 88.9004, -19.0131 )
+amount = 200
+lifetime = 3.0
+process_material = SubResource( 1 )

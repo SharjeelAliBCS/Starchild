@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Lighting/light_sphere.png" type="Texture" id=3]
@@ -25,61 +25,65 @@ region = Rect2( 240, 0, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 80, 120 )
+region = Rect2( 0, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 4 )
-region = Rect2( 0, 120, 80, 120 )
+region = Rect2( 80, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 4 )
-region = Rect2( 80, 120, 80, 120 )
+region = Rect2( 160, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 4 )
-region = Rect2( 160, 120, 80, 120 )
+region = Rect2( 240, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 4 )
-region = Rect2( 0, 120, 80, 120 )
+region = Rect2( 320, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 4 )
-region = Rect2( 80, 120, 80, 120 )
+region = Rect2( 400, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 4 )
-region = Rect2( 160, 120, 80, 120 )
+region = Rect2( 0, 0, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 4 )
-region = Rect2( 240, 120, 80, 120 )
+region = Rect2( 0, 120, 80, 120 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 4 )
-region = Rect2( 320, 120, 80, 120 )
+region = Rect2( 80, 120, 80, 120 )
 
-[sub_resource type="SpriteFrames" id=15]
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 160, 120, 80, 120 )
+
+[sub_resource type="SpriteFrames" id=16]
 animations = [ {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "idle",
 "speed": 6.0
 }, {
-"frames": [ SubResource( 6 ) ],
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 12 ) ],
 "loop": false,
 "name": "jump",
 "speed": 0.0
 }, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
 "loop": true,
 "name": "walk",
 "speed": 10.0
-}, {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
-"loop": true,
-"name": "run",
-"speed": 15.0
 } ]
 
 [node name="Player" type="KinematicBody2D"]
@@ -94,9 +98,9 @@ shape = SubResource( 1 )
 [node name="player_sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 3.46592, -9.51702 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 15 )
-animation = "idle"
-frame = 3
+frames = SubResource( 16 )
+animation = "run"
+frame = 2
 playing = true
 __meta__ = {
 "_edit_group_": true

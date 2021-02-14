@@ -1,14 +1,14 @@
 extends Node
 
-var default_life_rate = 0.5
+var default_life_rate = 1.0
 var life_rate = default_life_rate
 var lifespan = 100.0
 var max_lifespan = 100
 
-var min_life_rate = 0.1
-var max_life_rate = 3.0
+var min_life_rate = 0.2
+var max_life_rate = 5.0
 
-var luminosity = 0.6
+var luminosity = 0.4
 
 var max_fusion_energy = 100
 var fusion_energy = 100
@@ -16,6 +16,9 @@ var fusion_energy_rate = 10.0
 
 var hydrogen_orbs = 0 
 var hydrogen_heal_amount = 20
+
+var unknown_secretions = 0
+var open_portal_energy = 50
 
 var is_dead = false
 var use_luminosity = true
@@ -30,7 +33,13 @@ func NewLife():
 	fusion_energy = 100
 	life_rate = 0
 	use_luminosity = false
-		
+
+func Rebirth():
+	lifespan = 100.0
+	fusion_energy = 100
+	life_rate = default_life_rate
+	use_luminosity = true
+	
 func Update(delta):
 	
 	lifespan =max(lifespan-life_rate*delta,0)
@@ -73,7 +82,19 @@ func HealHealth():
 		lifespan =min(lifespan+hydrogen_heal_amount, max_lifespan)
 		hydrogen_orbs-=1
 		
-	
+func OpenPortal():
+	if(GlobalScenes.current_world=="reality"):
+		if(unknown_secretions>0):
+			unknown_secretions = max(unknown_secretions-1, 0)
+			return true
+		
+	elif(GlobalScenes.current_world=="void"):
+		if(fusion_energy>open_portal_energy):
+			fusion_energy = max(open_portal_energy-1, 0)
+			return true
+			
+	return false
+		
 func DecreaseFusionEnergy(amount):
 	fusion_energy-=amount
 	if(fusion_energy<=0):

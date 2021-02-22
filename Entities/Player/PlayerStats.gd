@@ -8,7 +8,7 @@ var max_lifespan = 100
 var min_life_rate = 0.2
 var max_life_rate = 5.0
 
-var luminosity = 0.4
+var luminosity = 2
 
 var max_fusion_energy = 100
 var fusion_energy = 100
@@ -19,6 +19,8 @@ var hydrogen_heal_amount = 20
 
 var unknown_secretions = 0
 var open_portal_energy = 50
+
+var sol_rate = 2
 
 var is_dead = false
 var use_luminosity = true
@@ -48,9 +50,15 @@ func Update(delta):
 	
 	fusion_energy =min(fusion_energy+fusion_energy_rate*delta,100)
 
+func UseSolAbility():
+	var ability_rate = sol_rate
+	if(life_rate>0):
+		ability_rate = ability_rate /life_rate
+	else:
+		ability_rate = ability_rate*2
+	ability_rate = -4*(pow(3, -ability_rate/5))+4.5
 	
-	
-	
+	return DecreaseFusionEnergy(ability_rate)
 func UpdateLifeRate(val):
 	
 	life_rate +=val
@@ -99,3 +107,6 @@ func DecreaseFusionEnergy(amount):
 	fusion_energy-=amount
 	if(fusion_energy<=0):
 		fusion_energy = 0
+		return false
+	return true
+		

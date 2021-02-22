@@ -20,8 +20,7 @@ func _ready():
 	
 	var particle_dir = Vector2(-direction.x, -direction.y)
 	$Particles2D.rotation += particle_dir.angle()
-	print(direction.angle())
-	
+
 	add_collision_exception_with(GlobalScenes.current_scene.get_node("Player"))
 	
 func _physics_process(delta):

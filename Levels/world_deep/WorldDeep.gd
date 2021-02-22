@@ -14,9 +14,7 @@ func _physics_process(delta):
 		print("changed worlds")
 		GlobalScenes.goto_scene("sol")
 		
-		
-	elif(timer>=MAX_TIME):
-		timer= 0
+	if Input.is_action_just_pressed("open_portal") and GlobalScenes.current_scene.get_node("Player").playerStats.OpenPortal():
 		GlobalScenes.goto_scene("reality")
 		
 	

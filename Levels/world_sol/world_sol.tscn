@@ -1,33 +1,117 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Levels/World.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Graphics/Backgrounds/backgound_sol.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Graphics/Backgrounds/sol_background_0.png" type="Texture" id=2]
 [ext_resource path="res://Levels/world_sol/WorldSol.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Graphics/Backgrounds/background_distant_sol.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Graphics/Backgrounds/sol_background_1.png" type="Texture" id=4]
+[ext_resource path="res://Items/HeartOfSol/HeartOfSol.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Graphics/tiles/tiles.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Graphics/Backgrounds/sol_background_2.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Graphics/Backgrounds/sol_background_3.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Graphics/Backgrounds/sol_background_4.png" type="Texture" id=9]
+
+[sub_resource type="ConvexPolygonShape2D" id=1]
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[sub_resource type="TileSet" id=2]
+0/name = "tiles.png 0"
+0/texture = ExtResource( 6 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 1 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 1 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
 
 [node name="WorldSol" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 
 [node name="Sprite" parent="Background" index="0"]
+modulate = Color( 1, 1, 1, 1 )
+position = Vector2( 269.299, 150 )
+scale = Vector2( 1.67, 1.67 )
 texture = ExtResource( 2 )
 
+[node name="ParallaxBackground" parent="." index="2"]
+scroll_base_scale = Vector2( 0.03, 0.01 )
+
 [node name="ParallaxLayer" parent="ParallaxBackground" index="0"]
-motion_mirroring = Vector2( 300, 0 )
+motion_mirroring = Vector2( 320, 0 )
 
 [node name="CanvasModulate2" parent="ParallaxBackground/ParallaxLayer" index="0"]
 visible = false
 
 [node name="Sprite" parent="ParallaxBackground/ParallaxLayer" index="1"]
 modulate = Color( 1, 1, 1, 1 )
-position = Vector2( 0, 790 )
-scale = Vector2( 1.5, 1.5 )
+position = Vector2( 2.122, 500 )
+scale = Vector2( 1, 1 )
 texture = ExtResource( 4 )
 
-[node name="CanvasModulate" parent="." index="4"]
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="." index="3"]
+layer = -3
+scroll_base_scale = Vector2( 0.1, 0.05 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2" index="0"]
+motion_mirroring = Vector2( 320, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground2/ParallaxLayer" index="0"]
+position = Vector2( 140.007, 190 )
+texture = ExtResource( 7 )
+
+[node name="ParallaxBackground3" type="ParallaxBackground" parent="." index="4"]
+layer = -3
+scroll_base_scale = Vector2( 0.4, 0.1 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground3" index="0"]
+motion_mirroring = Vector2( 640, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground3/ParallaxLayer" index="0"]
+position = Vector2( 306.368, 203.187 )
+texture = ExtResource( 8 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 640, 180 )
+
+[node name="ParallaxBackground4" type="ParallaxBackground" parent="." index="5"]
+layer = -3
+scroll_base_scale = Vector2( 0.7, 0.2 )
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground4" index="0"]
+motion_mirroring = Vector2( 640, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground4/ParallaxLayer" index="0"]
+position = Vector2( 299.545, 216.68 )
+texture = ExtResource( 9 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 640, 180 )
+
+[node name="CanvasModulate" parent="." index="6"]
 visible = false
 
-[node name="Interface" parent="." index="5"]
-margin_left = -8.75143
-margin_top = 25.5425
-margin_right = -8.75143
-margin_bottom = 25.5425
+[node name="Interface" parent="." index="7"]
+margin_left = -23.8836
+margin_top = -61.1495
+margin_right = -23.8836
+margin_bottom = -61.1495
+
+[node name="HeartOfSol" parent="." index="8" instance=ExtResource( 5 )]
+position = Vector2( 1189.63, 279.836 )
+
+[node name="TileMap" type="TileMap" parent="." index="9"]
+tile_set = SubResource( 2 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( -65497, 0, 0, 65535, 0, 0, 39, 0, 0, 131071, 0, 0, 65575, 0, 0, 196607, 0, 0, 131111, 0, 0, 262143, 0, 0, 196647, 0, 0, 327679, 0, 0, 262183, 0, 0, 393215, 0, 0, 327719, 0, 0, 458751, 0, 0, 393255, 0, 0, 524287, 0, 0, 458791, 0, 0, 589823, 0, 0, 524327, 0, 0, 655359, 0, 0, 589863, 0, 0, 720895, 0, 0, 655360, 0, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655377, 0, 0, 655378, 0, 0, 655379, 0, 0, 655380, 0, 0, 655381, 0, 0, 655382, 0, 0, 655383, 0, 0, 655384, 0, 0, 655385, 0, 0, 655386, 0, 0, 655387, 0, 0, 655388, 0, 0, 655389, 0, 0, 655390, 0, 0, 655391, 0, 0, 655392, 0, 0, 655393, 0, 0, 655394, 0, 0, 655395, 0, 0, 655396, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0 )

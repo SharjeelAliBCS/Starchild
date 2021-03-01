@@ -9,7 +9,6 @@ func _ready():
 	GlobalScenes.LoadScene("reality") 
 	GlobalScenes.current_scene.get_node("Player").SetInterfaceData()
 	
-	
 	SetMeteorSpawnTimer()
 		
 func SetMeteorSpawnTimer():

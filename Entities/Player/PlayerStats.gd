@@ -15,7 +15,7 @@ var fusion_energy = 100
 var fusion_energy_rate = 10.0
 
 var hydrogen_orbs = 0 
-var hydrogen_heal_amount = 20
+var hydrogen_heal_amount = 35
 
 var unknown_secretions = 0
 var open_portal_energy = 50
@@ -25,11 +25,13 @@ var sol_rate = 2
 var is_dead = false
 var use_luminosity = true
 
+var sol_damage = 35
+var attack_damage = 20
+
 func _ready():
 	life_rate = default_life_rate
 
 func NewLife():
-	print("new life")
 	is_dead = false
 	lifespan = 100.0
 	fusion_energy = 100
@@ -41,6 +43,13 @@ func Rebirth():
 	fusion_energy = 100
 	life_rate = default_life_rate
 	use_luminosity = true
+
+func GetAttackDamage():
+	return attack_damage
+	
+func GetSolDamage():
+	lifespan = max(lifespan-sol_damage/2, 0)
+	return sol_damage
 	
 func Update(delta):
 	
@@ -50,6 +59,9 @@ func Update(delta):
 	
 	fusion_energy =min(fusion_energy+fusion_energy_rate*delta,100)
 
+func Damage(dmg):
+	lifespan  = max(lifespan-dmg, 0)
+	
 func UseSolAbility():
 	var ability_rate = sol_rate
 	if(life_rate>0):
@@ -59,6 +71,7 @@ func UseSolAbility():
 	ability_rate = -4*(pow(3, -ability_rate/5))+4.5
 	
 	return DecreaseFusionEnergy(ability_rate)
+	
 func UpdateLifeRate(val):
 	
 	life_rate +=val
@@ -77,6 +90,18 @@ func GetLightSize():
 	else: 
 		return Vector2(0,0)
 
+func GetHeartBeatRate():
+	
+	if(GlobalScenes.current_world == "sol"):
+		return 1
+	else:
+		var heart_min = 0.5
+		var heart_max = 2
+		var percent = (life_rate-min_life_rate)/(max_life_rate-min_life_rate)
+		var heartbeat = percent*(heart_max-heart_min)+heart_min
+		
+		return heartbeat
+	
 func GetProgressValue(val):
 	var progress
 	if(val=="lifespan"):

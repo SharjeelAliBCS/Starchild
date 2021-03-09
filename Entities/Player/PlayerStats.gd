@@ -12,10 +12,10 @@ var luminosity = 2
 
 var max_fusion_energy = 100
 var fusion_energy = 100
-var fusion_energy_rate = 10.0
+var fusion_energy_rate = 15.0
 
 var hydrogen_orbs = 0 
-var hydrogen_heal_amount = 35
+var hydrogen_heal_amount = 100
 
 var unknown_secretions = 0
 var open_portal_energy = 50
@@ -28,8 +28,13 @@ var use_luminosity = true
 var sol_damage = 35
 var attack_damage = 20
 
+var dodge_energy = 35
+var attack_energy = 25
+var blinding_light_energy = 50
+
 func _ready():
 	life_rate = default_life_rate
+	
 
 func NewLife():
 	is_dead = false
@@ -38,6 +43,15 @@ func NewLife():
 	life_rate = 0
 	use_luminosity = false
 
+func Dodge():
+	return DecreaseFusionEnergy(dodge_energy)
+
+func Attack():
+	return DecreaseFusionEnergy(attack_energy)
+
+func BlindingLight():
+	return DecreaseFusionEnergy(blinding_light_energy)
+	
 func Rebirth():
 	lifespan = 100.0
 	fusion_energy = 100
@@ -52,15 +66,16 @@ func GetSolDamage():
 	return sol_damage
 	
 func Update(delta):
-	
 	lifespan =max(lifespan-life_rate*delta,0)
 	if(lifespan==0):
 		is_dead = true
 	
 	fusion_energy =min(fusion_energy+fusion_energy_rate*delta,100)
+	#sprite_material.set_shader_param("Flash", true)
 
 func Damage(dmg):
 	lifespan  = max(lifespan-dmg, 0)
+	GlobalScenes.current_scene.get_node("Player").SetSpriteFlash()
 	
 func UseSolAbility():
 	var ability_rate = sol_rate
@@ -129,9 +144,8 @@ func OpenPortal():
 	return false
 		
 func DecreaseFusionEnergy(amount):
-	fusion_energy-=amount
-	if(fusion_energy<=0):
-		fusion_energy = 0
+	if(fusion_energy-amount<0):
 		return false
+	fusion_energy-=amount
 	return true
 		

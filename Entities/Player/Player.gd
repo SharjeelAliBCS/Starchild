@@ -31,9 +31,18 @@ var sol_fusion_min = 10
 var sol_momentumX  = false
 var sol_momentumY  = false
 
-var attack_rate = 0.4
+var attack_rate = 0.5
 var attack_time_left = 0
 var just_attacked = false
+
+var face_left = true
+
+var dodge_speed = 900
+var dodge_time = 0.1
+var dodge_time_left = 0
+
+var blinding_light_time = 0.5
+var blinding_light_time_left = 0
 var STATE = '_move'
 
 var mouse_direction = Vector2()
@@ -49,6 +58,9 @@ func _ready():
 	playerStats = Global.playerStats
 	SwitchForms(false, true)
 
+func SetSpriteFlash():
+	$player_sprite._flash()
+	
 func _physics_process(delta):
 	timer+=delta
 	
@@ -68,22 +80,59 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("special_ability"):
 			playerStats.DecreaseFusionEnergy(20)
 		
-		if Input.is_action_just_pressed("attack") and attack_time_left<=0:
+		if Input.is_action_just_pressed("dodge") and STATE != '_dodge' and playerStats.Dodge():
+			STATE = '_dodge'
+			dodge_time_left = dodge_time
+			
+		if Input.is_action_just_pressed("attack") and attack_time_left<=0 and playerStats.Attack():
 			STATE = '_attack'
 			attack_time_left = attack_rate
 			velocity.x = 0
 			just_attacked = true
+			moving = false
+			onStopSfx("sfx_swing")
+			onPlaySfx("sfx_swing")
 			if($player_sprite.flip_h):
+				face_left = true
 				raycast_attack.rotation = deg2rad(90)
 			else:
+				face_left = false
 				raycast_attack.rotation = deg2rad(-90)
 		else:
 			just_attacked = false
+			
+		if Input.is_action_just_pressed("blinding_light") and blinding_light_time_left<=0 and playerStats.BlindingLight():
+			STATE = '_blindingLight'
+			blinding_light_time_left = blinding_light_time
+			$player_sprite.play("blinding_light")
 				
 		call(STATE,delta)
 		
 		move_and_slide(velocity, FLOOR)
 		Collisions()
+
+func _dodge(delta):
+	dodge_time_left-=delta
+	if(dodge_time_left<=0):
+		STATE = '_move'
+		velocity.x = 0
+	else:
+		if(face_left):
+			velocity.x = - dodge_speed
+		else:
+			velocity.x = dodge_speed
+			
+func _blindingLight(delta):
+	blinding_light_time_left-=delta
+	if(blinding_light_time_left<=0):
+		SpawnBlindingLight()
+		STATE = '_move'
+		
+func SpawnBlindingLight():
+
+	var scene = load("res://Projectiles/BlindingLight/BlindingLight.tscn")
+	var node = scene.instance()
+	add_child(node)
 
 func _attack(delta):
 	attack_time_left-=delta
@@ -94,8 +143,8 @@ func _attack(delta):
 		if(raycast_attack.is_colliding()):
 			
 			var node = raycast_attack.get_collider().get_parent()
-			print("colliding! ", node.name)
-			if("enemy" in node.name and node.STATE == '_tired'):
+			if("enemy" in node.name 
+			and (node.STATE == '_tired' or node.face_left == face_left)):
 				node.damage(playerStats.GetAttackDamage())
 		
 func _sol(delta):
@@ -152,6 +201,7 @@ func MoveHorizontal(delta):
 			else:
 				velocity.x = max(velocity.x-acceleration*2, MAX_SPEED)
 			$player_sprite.flip_h = false
+			face_left = false
 			moving = true
 		else:
 			if(velocity.x<0):
@@ -168,6 +218,7 @@ func MoveHorizontal(delta):
 			else:
 				velocity.x = min(velocity.x+acceleration*2, -MAX_SPEED)
 			$player_sprite.flip_h = true
+			face_left = true
 			moving = true
 		else:
 			if(velocity.x>0):
@@ -270,6 +321,7 @@ func SwitchForms(var toSol, var  onStart = false):
 			onPlaySfx("sfx_sol_end")
 		
 		$player_sprite.flip_h = velocity.x<0
+		face_left = velocity.x
 		onStopSfx("sfx_sol_start")
 		STATE = '_move'
 		
@@ -281,9 +333,7 @@ func OrbitSol():
 	
 	var sol_pos = mouse_direction*sol_distance
 	$Sol.set_position(sol_pos)
-	
-	
-		
+			
 func Collisions():
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)

@@ -13,7 +13,7 @@ export var FLOOR = Vector2(0,-1)
 export var DETECT_DISTANCE = 200
 export var GIVE_UP_DISTANCE = 250
 export var ENEMY_DAMAGE = 15
-export var MAX_ATTACKS = 50
+export var MAX_ATTACKS = 5
 export var attack_num = 0
 
 var STATE = '_move'
@@ -35,17 +35,21 @@ var attack_frames = 0
 var parry_frames_min = 0
 var parry_frames_max = 15
 
-var attack_delay_rate = 1
+var attack_delay_rate = 0.8
 var attack_delay_time_left = 0
 var HEALTH = 100
 
-var tired_rate = 2
+var tired_rate = 1.5
 var tired_time_left = 0
 var dir_change_delay  = 0.2
 var dir_change_time_left = 0
 
+var dying_rate = 1
+var dying_time_left = 0
+var face_left =false
+
 func _ready():
-	pass # Replace with function body.
+	add_collision_exception_with( GlobalScenes.current_scene.get_node("Player"))
 
 func _physics_process(delta):
 	
@@ -62,23 +66,31 @@ func _physics_process(delta):
 func damage(dmg):
 	HEALTH  = max(HEALTH-dmg, 0)
 	health_bar.UpdateProgress(HEALTH)
+	SetSpriteFlash()
 	if(HEALTH<=0):
-		print("dead!")
-		SpawnItem()
+		$AnimatedSprite.play("death")
+		STATE = '_dying'
+		dying_time_left = dying_rate
 
 func flipRays(left):
 	var angle = -90
+	face_left = false
+	$AnimatedSprite.flip_h = false
+
 	if(left):
 		angle = 90
-		
+		face_left = true
+		$AnimatedSprite.flip_h = true
+
 	attack_ray.rotation = deg2rad(angle)
 	sight_ray_front.rotation = deg2rad(angle)
 	sight_ray_back.rotation = deg2rad(-angle)
 	damage_ray.rotation = deg2rad(angle)
 	
 func _move(delta):
-	var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
 	
+	var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
+
 	if((sight_ray_front.is_colliding() and sight_ray_front.get_collider().name == 'Player') 
 	or (sight_ray_back.is_colliding() and sight_ray_back.get_collider().name == 'Player') ):
 	   STATE = '_follow'
@@ -86,22 +98,27 @@ func _move(delta):
 		
 		if(not left_ground_ray.is_colliding()):
 			move_left = false
-		if(not right_ground_ray.is_colliding()):
+		elif(not right_ground_ray.is_colliding()):
 			move_left = true
-		
+
 		if(damage_ray.is_colliding() and damage_ray.get_collider().name =="front"): 
 			move_left = !move_left
-			
+
 		if(move_left):
 			velocity.x = -MOVEMENT_SPEED
 			flipRays(true)
 		else:
 			velocity.x = MOVEMENT_SPEED
 			flipRays(false)
-		
 			
-		$AnimatedSprite.flip_h = move_left
+	flipRays(move_left)
 	$AnimatedSprite.play("move")
+	
+
+func _dying(delta):
+	dying_time_left -=delta
+	if(dying_time_left<=0):
+		SpawnItem()
 
 func _tired(delta):
 	$AnimatedSprite.play("tired")
@@ -118,9 +135,7 @@ func _attack(delta):
 	if(attack_time_left <= 0):
 		attack_time_left = attack_rate
 		var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
-		$AnimatedSprite.flip_h = player_pos.x<position.x
-
-		flipRays(player_pos.x < position.x)
+		
 		if( (damage_ray.is_colliding() and damage_ray.get_collider().name == "Player")):
 			Global.playerStats.Damage(ENEMY_DAMAGE)
 			
@@ -130,10 +145,16 @@ func _attack(delta):
 		attack_num+=1
 			
 	if(attack_num>=MAX_ATTACKS):
-		STATE = '_tired'
-		tired_time_left = tired_rate
-		velocity.x = 0
+		StartedTiring()
 
+func SetSpriteFlash():
+	$AnimatedSprite._flash()
+
+func StartedTiring():
+	STATE = '_tired'
+	tired_time_left = tired_rate
+	velocity.x = 0
+		
 func parry(delta):
 	#print("just attacked: ", GlobalScenes.current_scene.get_node("Player").raycast_attack.is_colliding(), " for ", attack_frames)
 	if(GlobalScenes.current_scene.get_node("Player").just_attacked
@@ -141,9 +162,7 @@ func parry(delta):
 	and GlobalScenes.current_scene.get_node("Player").raycast_attack.get_collider().get_parent().get_instance_id() == get_instance_id()  
 	#and attack_frames > parry_frames_min and attack_frames < parry_frames_max
 	):
-		STATE = '_tired'
-		tired_time_left = tired_rate
-		velocity.x = 0
+		StartedTiring()
 	
 func _follow(delta):
 	attack_delay_time_left -=delta
@@ -169,11 +188,9 @@ func _follow(delta):
 				if(player_pos.x<position.x):
 					velocity.x = -MOVEMENT_SPEED
 					print("left")
-					$AnimatedSprite.flip_h = true
 				else:
 					print("right")
 					velocity.x = MOVEMENT_SPEED
-					$AnimatedSprite.flip_h = false
 			
 				flipRays(player_pos.x < position.x)
 			

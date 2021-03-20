@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Items/PickableItem/PickableItem.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Graphics/Items/key.png" type="Texture" id=2]
+[ext_resource path="res://Items/Key/Key.gd" type="Script" id=3]
+
+[node name="Key" instance=ExtResource( 1 )]
+collision_layer = 8
+script = ExtResource( 3 )
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 2 )
+[connection signal="body_entered" from="." to="." method="_on_Key_body_entered"]

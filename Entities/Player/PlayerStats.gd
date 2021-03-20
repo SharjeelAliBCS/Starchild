@@ -18,6 +18,7 @@ var hydrogen_orbs = 0
 var hydrogen_heal_amount = 100
 
 var unknown_secretions = 0
+var keys = 0
 var open_portal_energy = 50
 
 var sol_rate = 2
@@ -49,6 +50,9 @@ func Dodge():
 func Attack():
 	return DecreaseFusionEnergy(attack_energy)
 
+func UseKey():
+	keys = max(0, keys-1)
+	
 func BlindingLight():
 	return DecreaseFusionEnergy(blinding_light_energy)
 	
@@ -62,7 +66,7 @@ func GetAttackDamage():
 	return attack_damage
 	
 func GetSolDamage():
-	lifespan = max(lifespan-sol_damage/2, 0)
+	lifespan = max(lifespan-sol_damage*0.5, 0)
 	return sol_damage
 	
 func Update(delta):
@@ -142,7 +146,7 @@ func OpenPortal():
 			return true
 			
 	return false
-		
+	
 func DecreaseFusionEnergy(amount):
 	if(fusion_energy-amount<0):
 		return false

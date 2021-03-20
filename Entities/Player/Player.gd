@@ -31,8 +31,6 @@ var sol_fusion_min = 10
 var sol_momentumX  = false
 var sol_momentumY  = false
 
-var attack_rate = 0.5
-var attack_time_left = 0
 var just_attacked = false
 
 var face_left = true
@@ -40,12 +38,12 @@ var face_left = true
 var dodge_speed = 900
 var dodge_time = 0.1
 var dodge_time_left = 0
-
-var blinding_light_time = 0.5
-var blinding_light_time_left = 0
-var STATE = '_move'
-
+export var STATE = '_move'
+var animation = "_idle"
 var mouse_direction = Vector2()
+
+var knockback_speed = 300
+export var INVULNERABLE = false
 
 onready var sol_ray = get_node("sol").get_node("raycast_sol")
 
@@ -58,12 +56,25 @@ func _ready():
 	playerStats = Global.playerStats
 	SwitchForms(false, true)
 
-func SetSpriteFlash():
-	$player_sprite._flash()
+func PlayAnimation():
+	get_node("AnimationPlayer").play(animation)
+
+func FlipNodes(flip):
 	
+	if(flip and get_node("Sprite").scale.x >=0):
+		get_node("Sprite").scale.x*= -1
+		raycast_attack.rotation = deg2rad(90)
+	elif(not flip):
+		raycast_attack.rotation = deg2rad(-90)
+		get_node("Sprite").scale.x = abs(get_node("Sprite").scale.x)
+	
+func SetSpriteFlash():
+	get_node("Sprite")._flash()
+	pass
+
 func _physics_process(delta):
 	timer+=delta
-	
+	PlayAnimation()
 	if(playerStats.is_dead):
 		pass
 	else:
@@ -73,7 +84,12 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("sol"):
 			SwitchForms(!sol_form)
-			
+		
+		if Input.is_action_just_pressed("interact"):
+			if raycast_attack.is_colliding() and "Door" in raycast_attack.get_collider().name and playerStats.keys > 0:
+				raycast_attack.get_collider().queue_free()
+				playerStats.UseKey()
+				
 		if Input.is_action_just_pressed("heal"):
 			playerStats.HealHealth()
 					
@@ -84,15 +100,15 @@ func _physics_process(delta):
 			STATE = '_dodge'
 			dodge_time_left = dodge_time
 			
-		if Input.is_action_just_pressed("attack") and attack_time_left<=0 and playerStats.Attack():
+		if Input.is_action_just_pressed("attack") and not "attack" in animation and playerStats.Attack():
 			STATE = '_attack'
-			attack_time_left = attack_rate
 			velocity.x = 0
 			just_attacked = true
+			animation = '_attack'
 			moving = false
 			onStopSfx("sfx_swing")
 			onPlaySfx("sfx_swing")
-			if($player_sprite.flip_h):
+			if(get_node("Sprite").scale.x <0):
 				face_left = true
 				raycast_attack.rotation = deg2rad(90)
 			else:
@@ -101,52 +117,65 @@ func _physics_process(delta):
 		else:
 			just_attacked = false
 			
-		if Input.is_action_just_pressed("blinding_light") and blinding_light_time_left<=0 and playerStats.BlindingLight():
+		if Input.is_action_just_pressed("blinding_light") and not "blinding_light" in animation and playerStats.BlindingLight():
 			STATE = '_blindingLight'
-			blinding_light_time_left = blinding_light_time
-			$player_sprite.play("blinding_light")
+			animation = "_blinding_light"
 				
 		call(STATE,delta)
 		
 		move_and_slide(velocity, FLOOR)
 		Collisions()
-
+func _blindingLight(delta):
+	pass
 func _dodge(delta):
 	dodge_time_left-=delta
 	if(dodge_time_left<=0):
 		STATE = '_move'
-		velocity.x = 0
+		if(face_left):
+			velocity.x = -MOVEMENT_SPEED
+		else:
+			velocity.x = MOVEMENT_SPEED
 	else:
 		if(face_left):
 			velocity.x = - dodge_speed
 		else:
 			velocity.x = dodge_speed
-			
-func _blindingLight(delta):
-	blinding_light_time_left-=delta
-	if(blinding_light_time_left<=0):
-		SpawnBlindingLight()
-		STATE = '_move'
-		
-func SpawnBlindingLight():
 
+func SpawnBlindingLight():
+	STATE = '_move'
 	var scene = load("res://Projectiles/BlindingLight/BlindingLight.tscn")
 	var node = scene.instance()
 	add_child(node)
 
+func Knockbacked(hitFromLeft):
+	STATE = '_knockback'
+	animation = '_knockback'
+	FlipNodes(not hitFromLeft)
+
+	if(hitFromLeft):
+		velocity.x = - knockback_speed
+	else:
+		velocity.x = knockback_speed
+	 
+func _knockback(delta):
+	pass
 func _attack(delta):
-	attack_time_left-=delta
-	$player_sprite.play("attack")
+	#$player_sprite.play("attack")
+	pass
 	
-	if(attack_time_left<=0):
-		STATE = '_move'
-		if(raycast_attack.is_colliding()):
+func Attack():
+	if(raycast_attack.is_colliding()):
+		var node = raycast_attack.get_collider()
+		if("Enemy" in node.name 
+		and (node.STATE == '_tired' or node.face_left == face_left)):
+			node.damage(playerStats.GetAttackDamage())
+			INVULNERABLE = true
+			animation = "_attack_hit"
+		else:
+			animation = "_attack_miss"
+	else:
+		animation = "_attack_miss"
 			
-			var node = raycast_attack.get_collider().get_parent()
-			if("enemy" in node.name 
-			and (node.STATE == '_tired' or node.face_left == face_left)):
-				node.damage(playerStats.GetAttackDamage())
-		
 func _sol(delta):
 	SolMovement()
 	
@@ -159,9 +188,15 @@ func _move(delta):
 	if(sol_momentumY):
 		if(MomentumMovementY()):
 			sol_momentumY = false
-	
+
 	MoveVertical(delta)
 	MoveHorizontal(delta)
+
+func CheckDoorCollision():
+	if raycast_attack.is_colliding() and not raycast_attack.get_collider() == null:
+		if "Door" in raycast_attack.get_collider().name:
+			return true
+	return false
 	
 func MoveVertical(delta):
 	if is_on_floor():
@@ -180,7 +215,7 @@ func MoveVertical(delta):
 			jumping = false
 			
 	if(velocity.y<0):
-		$player_sprite.play("jump")
+		animation = "_jump"
 	if can_infuse and playerStats.use_luminosity:
 		
 		if Input.is_action_just_released("decrease_fusion_rate"):
@@ -189,18 +224,17 @@ func MoveVertical(delta):
 		elif Input.is_action_just_released("increase_fusion_rate"):
 			ChangeFusionRate(FUSION_RATE)
 		
-	
 
 	velocity.y += GRAVITY
-		
+
 func MoveHorizontal(delta):
 	if Input.is_action_pressed("move_right"):
+		FlipNodes(false)
 		if(lastPressed=="right"):
 			if(velocity.x<MAX_SPEED):
 				velocity.x  +=acceleration
 			else:
 				velocity.x = max(velocity.x-acceleration*2, MAX_SPEED)
-			$player_sprite.flip_h = false
 			face_left = false
 			moving = true
 		else:
@@ -211,13 +245,12 @@ func MoveHorizontal(delta):
 				lastPressed ="right"
 		
 	elif Input.is_action_pressed("move_left"):
-		
+		FlipNodes(true)
 		if(lastPressed=="left"):
 			if(velocity.x>-MAX_SPEED):
 				velocity.x  -=acceleration
 			else:
 				velocity.x = min(velocity.x+acceleration*2, -MAX_SPEED)
-			$player_sprite.flip_h = true
 			face_left = true
 			moving = true
 		else:
@@ -230,13 +263,13 @@ func MoveHorizontal(delta):
 	else:
 		MomentumMovementX()
 		if is_on_floor():
-			$player_sprite.play("idle")
+			animation = "_idle"
 		moving = false
 		
 		lastPressed = ""
 	
 	if moving:
-		$player_sprite.play("run")
+		animation = "_run"
 			
 func MomentumMovementY():
 	velocity.y +=GRAVITY*0.5
@@ -258,12 +291,15 @@ func MomentumMovementX():
 	
 	return velocity.x<=0
 
-func attack(delta):
-	attack_time_left-=delta
-	if(attack_time_left<=0):
-		return true
-	else:
-		return false
+func RoofAbove():
+	return get_node("meteor_detection").is_colliding()
+		
+func SpawnExplosion():
+	
+	var item_scene = load("res://Particles/SolExplosion/SolExplosion.tscn")
+	var item = item_scene.instance()
+	item.position = get_position()
+	GlobalScenes.current_scene.add_child(item)
 	
 func SolMovement():
 	
@@ -272,25 +308,25 @@ func SolMovement():
 			
 	if(playerStats.UseSolAbility()):
 		
-		if(sol_ray.is_colliding() and "enemy" in sol_ray.get_collider().name):
+		if(sol_ray.is_colliding() and "Enemy" in sol_ray.get_collider().name):
 			SwitchForms(false)
 			sol_ray.get_collider().damage(playerStats.GetSolDamage())
-			
+			SpawnExplosion()
 		var angle_diff = rad2deg(mouse_direction.angle_to(velocity))
 		
 		var threshold = 5
 		
+		var velocity_angle = rad2deg(velocity.angle())
 		if(abs(angle_diff)>threshold):
 			
-			var velocity_angle = rad2deg(velocity.angle())
 			if(angle_diff>0):
 				velocity_angle-=sol_control
 			else:
 				velocity_angle+=sol_control
 			
-			$sol.rotation = deg2rad(velocity_angle+90)
-			velocity_angle = deg2rad(velocity_angle)
-			velocity = Vector2(cos(velocity_angle), sin(velocity_angle)).normalized()*sol_speed
+		$sol.rotation = deg2rad(velocity_angle+90)
+		velocity_angle = deg2rad(velocity_angle)
+		velocity = Vector2(cos(velocity_angle), sin(velocity_angle)).normalized()*sol_speed
 			
 	else:
 		SwitchForms(false)
@@ -300,8 +336,7 @@ func SwitchForms(var toSol, var  onStart = false):
 		sol_form = true
 		$player_collision.disabled = true
 		$sol_collision.disabled = false
-		
-		$player_sprite.set_visible(false)
+		get_node("Sprite").set_visible(false)
 		$sol.set_visible(true)
 		
 		velocity = mouse_direction*sol_speed
@@ -312,15 +347,14 @@ func SwitchForms(var toSol, var  onStart = false):
 		sol_form = false
 		$player_collision.disabled = false
 		$sol_collision.disabled = true
-		
-		$player_sprite.set_visible(true)
+		get_node("Sprite").set_visible(true)
 		$sol.set_visible(false)
 		if(not onStart):
 			sol_momentumX = true
 			sol_momentumY = true
 			onPlaySfx("sfx_sol_end")
-		
-		$player_sprite.flip_h = velocity.x<0
+		$sol.rotation = 0
+		FlipNodes(velocity.x<0)
 		face_left = velocity.x
 		onStopSfx("sfx_sol_start")
 		STATE = '_move'

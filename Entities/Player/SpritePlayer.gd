@@ -1,4 +1,4 @@
-extends AnimatedSprite
+extends Sprite
 
 var flash_time = 0.2
 var flash_time_left = 0.0;

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.0158103, 0.648221, 0.750988 )
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0.890625, 0, 1, 1, 0.997542, 0.977528, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 2
+emission_box_extents = Vector3( 200, 200, 1 )
+direction = Vector3( 0, 0, 1 )
+spread = 15.41
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 246.78
+scale = 2.0
+scale_random = 1.0
+color_ramp = SubResource( 3 )
+
+[sub_resource type="QuadMesh" id=4]
+
+[node name="SolarFlares" type="Particles"]
+material_override = SubResource( 5 )
+amount = 5000
+lifetime = 1.5
+preprocess = 20.71
+visibility_aabb = AABB( -4, -4, -58.0484, 8, 8, 116.097 )
+process_material = SubResource( 1 )
+draw_pass_1 = SubResource( 4 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.999, 20.644, 300 )
+fov = 85.3052
+far = 1178.0

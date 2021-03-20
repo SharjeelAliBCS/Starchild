@@ -3,8 +3,8 @@
 [ext_resource path="res://Assets/Graphics/Sprites/unknown.png" type="Texture" id=1]
 [ext_resource path="res://Entities/Enemies/Unknown/Unknown.gd" type="Script" id=2]
 
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 28.6517, 40.4874 )
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 26.1574, 43.5065 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -22,54 +22,55 @@ region = Rect2( 160, 0, 80, 120 )
 atlas = ExtResource( 1 )
 region = Rect2( 240, 0, 80, 120 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 120, 80, 120 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
 region = Rect2( 80, 120, 80, 120 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 1 )
 region = Rect2( 160, 120, 80, 120 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 1 )
 region = Rect2( 240, 120, 80, 120 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 1 )
 region = Rect2( 320, 120, 80, 120 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 1 )
 region = Rect2( 400, 120, 80, 120 )
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=12]
 animations = [ {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
 "loop": true,
 "name": "run",
 "speed": 13.0
 } ]
 
 [node name="Unknown" type="KinematicBody2D"]
-scale = Vector2( 0.75, 0.75 )
+scale = Vector2( 0.7, 0.7 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2.67269 )
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 0.378374, -5.29732 )
 scale = Vector2( 0.75, 0.75 )
-frames = SubResource( 1 )
+frames = SubResource( 12 )
 animation = "run"
-frame = 2
 playing = true

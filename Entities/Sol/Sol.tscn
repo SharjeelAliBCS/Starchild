@@ -4,31 +4,32 @@
 [ext_resource path="res://Entities/Sol/Sol.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Lighting/light_sphere.png" type="Texture" id=3]
 
-[sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.90411 )
-colors = PoolColorArray( 1, 0.807843, 0.235294, 1, 1, 1, 1, 0.160784 )
+[sub_resource type="Gradient" id=34]
+offsets = PoolRealArray( 0, 0.388128, 0.90411 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.962891, 1, 0, 0.932185, 1, 0.00390625, 0.00390625, 0.160784 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=35]
+gradient = SubResource( 34 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=36]
 _data = [ Vector2( 0.838843, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
+[sub_resource type="CurveTexture" id=37]
+curve = SubResource( 36 )
 
-[sub_resource type="ParticlesMaterial" id=1]
-trail_size_modifier = SubResource( 5 )
+[sub_resource type="ParticlesMaterial" id=38]
+trail_size_modifier = SubResource( 37 )
 emission_shape = 1
-emission_sphere_radius = 12.91
+emission_sphere_radius = 0.01
 flag_disable_z = true
 spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 92.25
+gravity = Vector3( 0, 10, 0 )
+initial_velocity = 115.5
+initial_velocity_random = 0.5
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 4.0
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 35 )
 
 [node name="Sol" type="Area2D"]
 modulate = Color( 1, 0.819608, 0, 1 )
@@ -44,9 +45,10 @@ texture = ExtResource( 1 )
 amount = 200
 preprocess = 93.33
 explosiveness = 0.1
-process_material = SubResource( 1 )
+process_material = SubResource( 38 )
 
 [node name="player_light" type="Light2D" parent="."]
 position = Vector2( 0.363621, 3.64924 )
 texture = ExtResource( 3 )
 range_layer_min = -4
+range_layer_max = 2

@@ -11,12 +11,13 @@ export var GRAVITY = 12
 var velocity = Vector2(0,0)
 export var FLOOR = Vector2(0,-1)
 export var DETECT_DISTANCE = 200
-export var GIVE_UP_DISTANCE = 250
-export var ENEMY_DAMAGE = 15
+export var GIVE_UP_DISTANCE = 400
+export var ENEMY_DAMAGE = 25
 export var MAX_ATTACKS = 5
 export var attack_num = 0
 
-var STATE = '_move'
+export var STATE = '_move'
+export var PREV_STATE = '_move'
 
 onready var left_ground_ray = get_node("raycast_bl")
 onready var right_ground_ray = get_node("raycast_br")
@@ -25,17 +26,14 @@ onready var attack_ray = get_node("raycast_attack")
 onready var damage_ray = get_node("raycast_damage")
 onready var sight_ray_front = get_node("raycast_sight_front")
 onready var sight_ray_back = get_node("raycast_sight_back")
-onready var ground_ray = get_node("raycast_b")
 onready var health_bar = get_node("Bar").get_node("bar_size").get_node("TextureProgress")
 
 var move_left = true
-var attack_rate = 0.25
-var attack_time_left = 0
 var attack_frames = 0
 var parry_frames_min = 0
 var parry_frames_max = 15
 
-var attack_delay_rate = 0.8
+export var attack_delay_rate = 0.8
 var attack_delay_time_left = 0
 var HEALTH = 100
 
@@ -44,111 +42,110 @@ var tired_time_left = 0
 var dir_change_delay  = 0.2
 var dir_change_time_left = 0
 
-var dying_rate = 1
-var dying_time_left = 0
 var face_left =false
+var animation = "_idle"
+var change_dir_delay = 0.2
+var change_dir_time = 0
 
+var TIME = 0
 func _ready():
 	add_collision_exception_with( GlobalScenes.current_scene.get_node("Player"))
 
 func _physics_process(delta):
 	
-	#print(STATE)
+	PlayAnimation()
 	call(STATE, delta)
 	
-	if(ground_ray.is_colliding()):
+	if(is_on_floor()):
 		velocity.y = 0
 	else:
 		velocity.y += GRAVITY
 	move_and_slide(velocity, FLOOR)
 
+func PlayAnimation():
+	get_node("AnimationPlayer").play(animation)
 
+func _knockback(delta):
+	pass
+	
+func _dying(delta):
+	pass
+	
 func damage(dmg):
 	HEALTH  = max(HEALTH-dmg, 0)
 	health_bar.UpdateProgress(HEALTH)
 	SetSpriteFlash()
 	if(HEALTH<=0):
-		$AnimatedSprite.play("death")
+		animation = "_dying"
 		STATE = '_dying'
-		dying_time_left = dying_rate
+		velocity.x = 0
+	else:
+		PREV_STATE = STATE
+		STATE = '_knockback'
+		animation = '_knockback'
+		velocity.x = 0
 
+func SwitchToPrevState():
+	STATE = PREV_STATE
+	
 func flipRays(left):
+
 	var angle = -90
 	face_left = false
-	$AnimatedSprite.flip_h = false
+	get_node("Sprite").scale.x = abs(get_node("Sprite").scale.x)
 
 	if(left):
 		angle = 90
 		face_left = true
-		$AnimatedSprite.flip_h = true
-
+		get_node("Sprite").scale.x*= -1
 	attack_ray.rotation = deg2rad(angle)
 	sight_ray_front.rotation = deg2rad(angle)
 	sight_ray_back.rotation = deg2rad(-angle)
 	damage_ray.rotation = deg2rad(angle)
-	
+
+func ChangeMovementDirection(speed):
+	if(move_left):
+		velocity.x = -speed
+		#print("moving left")
+	else:
+		#print("moving right")
+		velocity.x = speed
+		
+	flipRays(move_left)
+
 func _move(delta):
 	
+	change_dir_time = max(change_dir_time-delta, 0)
 	var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
 
 	if((sight_ray_front.is_colliding() and sight_ray_front.get_collider().name == 'Player') 
 	or (sight_ray_back.is_colliding() and sight_ray_back.get_collider().name == 'Player') ):
 	   STATE = '_follow'
+	   change_dir_time = 0
 	else:
 		
 		if(not left_ground_ray.is_colliding()):
 			move_left = false
 		elif(not right_ground_ray.is_colliding()):
 			move_left = true
-
-		if(damage_ray.is_colliding() and damage_ray.get_collider().name =="front"): 
+		
+		if(change_dir_time <=0 and attack_ray.is_colliding() and (attack_ray.get_collider().name == "front" or "Door" in attack_ray.get_collider().name)): 
 			move_left = !move_left
+			change_dir_time = change_dir_delay
 
-		if(move_left):
-			velocity.x = -MOVEMENT_SPEED
-			flipRays(true)
-		else:
-			velocity.x = MOVEMENT_SPEED
-			flipRays(false)
-			
-	flipRays(move_left)
-	$AnimatedSprite.play("move")
+		ChangeMovementDirection(MOVEMENT_SPEED)
+	#print(velocity.x)
+	animation = "_move"
 	
-
-func _dying(delta):
-	dying_time_left -=delta
-	if(dying_time_left<=0):
-		SpawnItem()
-
 func _tired(delta):
-	$AnimatedSprite.play("tired")
+	animation = "_tired"
 	tired_time_left-=delta
 	if(tired_time_left<=0):
 		STATE = '_follow'
 		attack_num = 0 
-	
-func _attack(delta):
-	attack_frames+=1
-	attack_time_left -= delta
-	$AnimatedSprite.play("attack")
-	parry(delta)
-	if(attack_time_left <= 0):
-		attack_time_left = attack_rate
-		var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
-		
-		if( (damage_ray.is_colliding() and damage_ray.get_collider().name == "Player")):
-			Global.playerStats.Damage(ENEMY_DAMAGE)
-			
-		attack_delay_time_left = attack_delay_rate
-		
-		STATE = '_follow'
-		attack_num+=1
-			
-	if(attack_num>=MAX_ATTACKS):
-		StartedTiring()
 
 func SetSpriteFlash():
-	$AnimatedSprite._flash()
+	$Sprite._flash()
 
 func StartedTiring():
 	STATE = '_tired'
@@ -163,40 +160,13 @@ func parry(delta):
 	#and attack_frames > parry_frames_min and attack_frames < parry_frames_max
 	):
 		StartedTiring()
+
+func StartAttack():
+	pass
 	
 func _follow(delta):
-	attack_delay_time_left -=delta
+	pass
 	
-	var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
-
-	if(attack_delay_time_left >0):
-		$AnimatedSprite.play("idle")
-		velocity.x = 0
-	elif( (attack_ray.is_colliding() and attack_ray.get_collider().name == "Player")):
-		attack_time_left = attack_rate
-		attack_frames = 0
-		velocity.x = 0
-		STATE = '_attack'
-	else:
-		if(position.distance_to(player_pos)>GIVE_UP_DISTANCE):
-			STATE = '_move'
-			
-		else:
-			dir_change_time_left-=delta
-			if(dir_change_time_left <=0):
-				dir_change_time_left = dir_change_delay
-				if(player_pos.x<position.x):
-					velocity.x = -MOVEMENT_SPEED
-					print("left")
-				else:
-					print("right")
-					velocity.x = MOVEMENT_SPEED
-			
-				flipRays(player_pos.x < position.x)
-			
-			$AnimatedSprite.play("move")
-	
-
 func SpawnItem():
 	
 	var item_scene = load("res://Items/HydrogenOrb/HydrogenOrb.tscn")
@@ -206,7 +176,3 @@ func SpawnItem():
 	self.queue_free()
 	
 
-func _on_Area2D_body_entered(body):
-	if "Player" in body.name:
-		return true
-	return false

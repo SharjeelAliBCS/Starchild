@@ -21,24 +21,24 @@ func SetMeteorSpawnTimer():
 	
 func SpawnMeteor():
 	
-	var rand = RandomNumberGenerator.new()
-	var meteor_scene = load("res://Entities/Meteor/Meteor.tscn")
-	var screen_size = get_viewport().get_visible_rect().size
-	
-	var camera_pos = GlobalScenes.current_scene.get_node("Player").get_node("Camera2D").get_camera_position()
-	
-	var meteor = meteor_scene.instance()
-	rand.randomize()
-	var x  = rand.randf_range(camera_pos.x-screen_size.x/2,camera_pos.x+screen_size.x/2)
-	rand.randomize()
-	var y  = camera_pos.y-screen_size.y*0.6
-	meteor.position.y = y
-	meteor.position.x = x
-	add_child(meteor)
+	if(not GlobalScenes.current_scene.get_node("Player").RoofAbove()):
+		var rand = RandomNumberGenerator.new()
+		var meteor_scene = load("res://Entities/Meteor/Meteor.tscn")
+		var screen_size = get_viewport().get_visible_rect().size
 		
+		var camera_pos = GlobalScenes.current_scene.get_node("Player").get_node("Camera2D").get_camera_position()
+		
+		var meteor = meteor_scene.instance()
+		rand.randomize()
+		var x  = rand.randf_range(camera_pos.x-screen_size.x/2,camera_pos.x+screen_size.x/2)
+		rand.randomize()
+		var y  = camera_pos.y-screen_size.y*0.6
+		meteor.position.y = y
+		meteor.position.x = x
+		add_child(meteor)
+			
 	SetMeteorSpawnTimer()
 		
-
 func _physics_process(delta):
 	timer+=delta
 	

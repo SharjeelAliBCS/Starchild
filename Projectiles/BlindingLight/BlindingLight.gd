@@ -23,7 +23,7 @@ func CheckTime(delta):
 		
 func _on_BlindingLight_body_entered(body):
 
-	if "enemy" in body.name and not enemies.has(body.name):
+	if "Enemy" in body.name and not enemies.has(body.name):
 		print("and collided with ", body.name)
 		enemies[body.name] = true
 		body.StartedTiring()

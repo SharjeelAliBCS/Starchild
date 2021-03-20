@@ -48,21 +48,21 @@ colors = PoolColorArray( 1, 0.459961, 0, 1, 0.999359, 0.458119, 0.00459111, 0.99
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
 
-[sub_resource type="Curve" id=8]
-_data = [ Vector2( 0.404959, 0.234091 ), 0.0, 1.51724, 0, 0, Vector2( 1, 0.151136 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=9]
-curve = SubResource( 8 )
-
 [sub_resource type="Curve" id=5]
-_data = [ Vector2( 0.838843, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0.404959, 0.234091 ), 0.0, 1.51724, 0, 0, Vector2( 1, 0.151136 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=6]
 curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0.838843, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
 trail_divisor = 2
-trail_size_modifier = SubResource( 6 )
+trail_size_modifier = SubResource( 8 )
 emission_shape = 1
 emission_sphere_radius = 12.91
 flag_disable_z = true
@@ -74,7 +74,7 @@ orbit_velocity_random = 0.0
 linear_accel = 1.8
 scale = 5.0
 scale_random = 1.0
-scale_curve = SubResource( 9 )
+scale_curve = SubResource( 6 )
 color_ramp = SubResource( 4 )
 
 [node name="Solnio" type="Node2D"]
@@ -91,4 +91,4 @@ lifetime = 0.8
 preprocess = 93.33
 speed_scale = 0.2
 explosiveness = 0.1
-process_material = SubResource( 7 )
+process_material = SubResource( 9 )

@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Graphics/HUD/hydrogen_orbs.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Fonts/conthrax-sb.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Interface/components/SkillCostItem/SkillCostItem.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=3]
+size = 12
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 12
+font_data = ExtResource( 2 )
+
+[node name="SkillCostItem" type="HBoxContainer"]
+margin_right = 97.0
+margin_bottom = 16.0
+rect_scale = Vector2( 0.03, 0.03 )
+custom_constants/separation = 0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="."]
+margin_right = 57.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 57, 0 )
+custom_fonts/font = SubResource( 3 )
+text = "Total:    "
+
+[node name="Label" type="Label" parent="."]
+margin_left = 57.0
+margin_right = 77.0
+margin_bottom = 16.0
+custom_fonts/font = SubResource( 2 )
+text = "23"
+align = 2
+
+[node name="ignore" type="Label" parent="."]
+margin_left = 77.0
+margin_top = 1.0
+margin_right = 97.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="Sprite" type="Sprite" parent="ignore"]
+position = Vector2( 16.5186, 6.11572 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 1 )

@@ -10,8 +10,6 @@
 scale = Vector2( 0.1, 0.1 )
 
 [node name="TextureProgress" parent="bar_size" index="0"]
-margin_right = 1500.0
-margin_bottom = 100.0
 texture_under = ExtResource( 3 )
 texture_progress = ExtResource( 2 )
 NAME = "lifespan"

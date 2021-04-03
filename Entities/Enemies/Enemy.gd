@@ -26,7 +26,7 @@ onready var attack_ray = get_node("raycast_attack")
 onready var damage_ray = get_node("raycast_damage")
 onready var sight_ray_front = get_node("raycast_sight_front")
 onready var sight_ray_back = get_node("raycast_sight_back")
-onready var health_bar = get_node("Bar").get_node("bar_size").get_node("TextureProgress")
+onready var health_bar = get_node("Bar")
 
 var move_left = true
 var attack_frames = 0
@@ -46,6 +46,7 @@ var face_left =false
 var animation = "_idle"
 var change_dir_delay = 0.2
 var change_dir_time = 0
+var id = 0
 
 var TIME = 0
 func _ready():
@@ -73,7 +74,7 @@ func _dying(delta):
 	
 func damage(dmg):
 	HEALTH  = max(HEALTH-dmg, 0)
-	health_bar.UpdateProgress(HEALTH)
+	health_bar.Hit(HEALTH,dmg)
 	SetSpriteFlash()
 	if(HEALTH<=0):
 		animation = "_dying"
@@ -168,7 +169,7 @@ func _follow(delta):
 	pass
 	
 func SpawnItem():
-	
+	GlobalScenes.RemoveSpawnable('enemies', id)
 	var item_scene = load("res://Items/HydrogenOrb/HydrogenOrb.tscn")
 	var item = item_scene.instance()
 	item.position = get_position()

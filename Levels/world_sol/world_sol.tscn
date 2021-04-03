@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Levels/World.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Graphics/Backgrounds/sol_background_0.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Levels/world_sol/Solnio/Solnio.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Particles/SolarFlares/SolarFlares.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Levels/world_sol/SolarFlares.gd" type="Script" id=12]
+[ext_resource path="res://Assets/Sounds/wind woosh loop.ogg" type="AudioStream" id=13]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -63,11 +64,37 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 1/z_index = 0
 
-[sub_resource type="ViewportTexture" id=4]
+[sub_resource type="ConvexPolygonShape2D" id=4]
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[sub_resource type="TileSet" id=5]
+0/name = "tileset_sol.png 0"
+0/texture = ExtResource( 6 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 4 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 4 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[sub_resource type="ViewportTexture" id=6]
 viewport_path = NodePath("SolarFlaresBackground/Viewport")
 
 [node name="WorldSol" instance=ExtResource( 1 )]
-position = Vector2( -53.6583, -76.5216 )
+position = Vector2( 0, 0 )
 script = ExtResource( 3 )
 
 [node name="Solnio" parent="Background" index="0" instance=ExtResource( 10 )]
@@ -79,6 +106,9 @@ modulate = Color( 1, 1, 1, 1 )
 position = Vector2( 269.299, 150 )
 scale = Vector2( 1.67, 1.67 )
 texture = ExtResource( 2 )
+
+[node name="Player" parent="." index="1"]
+position = Vector2( 48, 329 )
 
 [node name="ParallaxBackground" parent="." index="2"]
 scroll_base_scale = Vector2( 0.03, 0.01 )
@@ -137,9 +167,11 @@ region_rect = Rect2( 0, 0, 640, 180 )
 visible = false
 
 [node name="Interface" parent="." index="7"]
-margin_left = -23.8836
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -130.376
 margin_top = -61.1495
-margin_right = -23.8836
+margin_right = -130.376
 margin_bottom = -61.1495
 
 [node name="HeartOfSol" parent="." index="8" instance=ExtResource( 5 )]
@@ -151,15 +183,27 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( -131033, 0, 0, -65497, 0, 0, 65535, 0, 0, 39, 0, 0, 131071, 0, 0, 65575, 0, 0, 196607, 0, 0, 131111, 0, 0, 262143, 0, 0, 196647, 0, 0, 327678, 0, 0, 327679, 0, 0, 262183, 0, 0, 393214, 0, 0, 393215, 0, 0, 327719, 0, 0, 458750, 0, 0, 458751, 0, 0, 393255, 0, 0, 524286, 0, 0, 524287, 0, 0, 458791, 0, 0, 589822, 0, 0, 589823, 0, 0, 524327, 0, 0, 655359, 0, 0, 589863, 0, 0, 589864, 0, 0, 720895, 0, 0, 655399, 0, 0, 655400, 0, 0, 786431, 0, 0, 720896, 1, 0, 720897, 1, 0, 720898, 1, 0, 720899, 1, 0, 720900, 1, 0, 720901, 1, 0, 720902, 1, 0, 720903, 1, 0, 720904, 1, 0, 720905, 1, 0, 720906, 1, 0, 720907, 1, 0, 720908, 1, 0, 720909, 1, 0, 720910, 1, 0, 720911, 1, 0, 720912, 1, 0, 720913, 1, 0, 720914, 1, 0, 720915, 1, 0, 720916, 1, 0, 720917, 1, 0, 720918, 1, 0, 720919, 1, 0, 720920, 1, 0, 720921, 1, 0, 720922, 1, 0, 720923, 1, 0, 720924, 1, 0, 720925, 1, 0, 720926, 1, 0, 720927, 1, 0, 720928, 1, 0, 720929, 1, 0, 720930, 1, 0, 720931, 1, 0, 720932, 1, 0, 720933, 1, 0, 720934, 1, 0, 720935, 0, 0, 720936, 0, 0, 851967, 0, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0, 786454, 0, 0, 786455, 0, 0, 786456, 0, 0, 786457, 0, 0, 786458, 0, 0, 786459, 0, 0, 786460, 0, 0, 786461, 0, 0, 786462, 0, 0, 786463, 0, 0, 786464, 0, 0, 786465, 0, 0, 786466, 0, 0, 786467, 0, 0, 786468, 0, 0, 786469, 0, 0, 786470, 0, 0, 786471, 0, 0, 786472, 0, 0, 917503, 0, 0, 851968, 0, 0, 851969, 0, 0, 851970, 0, 0, 851971, 0, 0, 851972, 0, 0, 851973, 0, 0, 851974, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 851990, 0, 0, 851991, 0, 0, 851992, 0, 0, 851993, 0, 0, 851994, 0, 0, 851995, 0, 0, 851996, 0, 0, 851997, 0, 0, 851998, 0, 0, 851999, 0, 0, 852000, 0, 0, 852001, 0, 0, 852002, 0, 0, 852003, 0, 0, 852004, 0, 0, 852005, 0, 0, 852006, 0, 0, 852007, 0, 0, 852008, 0, 0 )
 
-[node name="SolarFlaresBackground" type="CanvasLayer" parent="." index="11"]
+[node name="foreground" type="TileMap" parent="." index="10"]
+modulate = Color( 0.34902, 0.34902, 0.34902, 1 )
+tile_set = SubResource( 5 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 64
+collision_mask = 128
+format = 1
+tile_data = PoolIntArray( 458755, -1610612736, 0, 589820, -1610612736, 0, 524291, -1610612736, 0, 524299, -1610612736, 0, 524308, -1610612736, 0, 524314, -1610612736, 0, 589827, -1610612736, 0, 589835, -1610612736, 0, 589836, -1610612736, 0, 589844, -1610612736, 0, 589845, -1610612736, 0, 589850, -1610612736, 0, 655363, -1610612736, 0, 655364, -1610612736, 0, 655370, -1610612736, 0, 655371, -1610612736, 0, 655372, -1610612736, 0, 655373, -1610612736, 0, 655374, -1610612736, 0, 655379, -1610612736, 0, 655380, -1610612736, 0, 655381, -1610612736, 0, 655382, -1610612736, 0, 655386, -1610612736, 0 )
+
+[node name="sfx_solarWind" type="AudioStreamPlayer" parent="." index="12"]
+stream = ExtResource( 13 )
+
+[node name="SolarFlaresBackground" type="CanvasLayer" parent="." index="13"]
 layer = -1
 script = ExtResource( 12 )
 
 [node name="ViewportSprite" type="Sprite" parent="SolarFlaresBackground" index="0"]
-position = Vector2( 259.996, 150.52 )
+position = Vector2( 267.853, 150.52 )
 z_index = 300
 z_as_relative = false
-texture = SubResource( 4 )
+texture = SubResource( 6 )
 
 [node name="Viewport" type="Viewport" parent="SolarFlaresBackground" index="1"]
 size = Vector2( 533, 300 )
@@ -167,3 +211,4 @@ transparent_bg = true
 render_target_v_flip = true
 
 [node name="SolarFlares" parent="SolarFlaresBackground/Viewport" index="0" instance=ExtResource( 11 )]
+emitting = false

@@ -75,6 +75,11 @@ func SetSpriteFlash():
 func _physics_process(delta):
 	timer+=delta
 	PlayAnimation()
+	
+	
+	if(Input.is_action_just_pressed("ui_cancel")):
+		GlobalScenes.current_scene.get_node('Menu').toggle()
+		
 	if(playerStats.is_dead):
 		pass
 	else:
@@ -87,6 +92,8 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("interact"):
 			if raycast_attack.is_colliding() and "Door" in raycast_attack.get_collider().name and playerStats.keys > 0:
+				
+				GlobalScenes.RemoveSpawnable('doors', raycast_attack.get_collider().id)
 				raycast_attack.get_collider().queue_free()
 				playerStats.UseKey()
 				
@@ -99,6 +106,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("dodge") and STATE != '_dodge' and playerStats.Dodge():
 			STATE = '_dodge'
 			dodge_time_left = dodge_time
+			playerStats.playerDodging = true
 			
 		if Input.is_action_just_pressed("attack") and not "attack" in animation and playerStats.Attack():
 			STATE = '_attack'
@@ -117,7 +125,7 @@ func _physics_process(delta):
 		else:
 			just_attacked = false
 			
-		if Input.is_action_just_pressed("blinding_light") and not "blinding_light" in animation and playerStats.BlindingLight():
+		if playerStats.blinding_light_duration > 0 &&  Input.is_action_just_pressed("blinding_light") and not "blinding_light" in animation and playerStats.BlindingLight():
 			STATE = '_blindingLight'
 			animation = "_blinding_light"
 				
@@ -125,11 +133,14 @@ func _physics_process(delta):
 		
 		move_and_slide(velocity, FLOOR)
 		Collisions()
+		CheckDoorCollision()
+		
 func _blindingLight(delta):
 	pass
 func _dodge(delta):
 	dodge_time_left-=delta
 	if(dodge_time_left<=0):
+		playerStats.playerDodging = false
 		STATE = '_move'
 		if(face_left):
 			velocity.x = -MOVEMENT_SPEED
@@ -145,6 +156,7 @@ func SpawnBlindingLight():
 	STATE = '_move'
 	var scene = load("res://Projectiles/BlindingLight/BlindingLight.tscn")
 	var node = scene.instance()
+	node.TIME = playerStats.blinding_light_duration
 	add_child(node)
 
 func Knockbacked(hitFromLeft):
@@ -195,9 +207,15 @@ func _move(delta):
 func CheckDoorCollision():
 	if raycast_attack.is_colliding() and not raycast_attack.get_collider() == null:
 		if "Door" in raycast_attack.get_collider().name:
-			return true
-	return false
-	
+			if(playerStats.keys > 0):
+				GlobalDialog.ShowDialog("door_unlocked")
+			else:
+				GlobalDialog.ShowDialog("door_locked")
+		else:
+			GlobalDialog.RemoveDialog("door")
+	else:
+		GlobalDialog.RemoveDialog("door")
+
 func MoveVertical(delta):
 	if is_on_floor():
 		velocity.y = 0
@@ -364,7 +382,6 @@ func OrbitSol():
 	var mouse_pos = get_global_mouse_position()
 	
 	mouse_direction = (mouse_pos-position).normalized()
-	
 	var sol_pos = mouse_direction*sol_distance
 	$Sol.set_position(sol_pos)
 			
@@ -396,3 +413,14 @@ func onPlaySfx(name):
 func onStopSfx(name):
 	get_node(name).stop()
 	
+
+
+func _on_Area2D_body_entered(body):
+	if "foreground" in body.name:
+		playerStats.playerSafe = true
+		print("safe!")
+
+
+func _on_Area2D_body_exited(body):
+	playerStats.playerSafe = false
+	print("oh no!")

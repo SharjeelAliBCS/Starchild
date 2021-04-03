@@ -18,7 +18,6 @@ func _physics_process(delta):
 		positions.append(new_position)
 		if(timer>mimic_delay):
 			var curr_position = positions.pop_front()
-			print(curr_position)
 			position = curr_position
 			
 			if(prevPosition.x<curr_position.x):

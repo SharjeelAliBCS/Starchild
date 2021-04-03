@@ -33,6 +33,11 @@ var dodge_energy = 35
 var attack_energy = 25
 var blinding_light_energy = 50
 
+var playerSafe = false
+var playerDodging = false
+
+var blinding_light_duration = 0
+
 func _ready():
 	life_rate = default_life_rate
 	
@@ -74,12 +79,13 @@ func Update(delta):
 	if(lifespan==0):
 		is_dead = true
 	
-	fusion_energy =min(fusion_energy+fusion_energy_rate*delta,100)
+	fusion_energy =min(fusion_energy+fusion_energy_rate*delta,max_fusion_energy)
 	#sprite_material.set_shader_param("Flash", true)
 
 func Damage(dmg):
-	lifespan  = max(lifespan-dmg, 0)
-	GlobalScenes.current_scene.get_node("Player").SetSpriteFlash()
+	if(not playerDodging):
+		lifespan  = max(lifespan-dmg, 0)
+		GlobalScenes.current_scene.get_node("Player").SetSpriteFlash()
 	
 func UseSolAbility():
 	var ability_rate = sol_rate
@@ -124,9 +130,9 @@ func GetHeartBeatRate():
 func GetProgressValue(val):
 	var progress
 	if(val=="lifespan"):
-		progress = lifespan
+		progress = lifespan/max_lifespan*100
 	else:
-		progress = fusion_energy
+		progress = fusion_energy/max_fusion_energy*100
 	return progress
 
 func HealHealth():
@@ -152,4 +158,7 @@ func DecreaseFusionEnergy(amount):
 		return false
 	fusion_energy-=amount
 	return true
-		
+
+func SolarWindDamage(amount):
+	if(not playerSafe):
+		Damage(amount)

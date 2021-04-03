@@ -1,37 +1,39 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[sub_resource type="SpatialMaterial" id=5]
+[ext_resource path="res://Particles/SolarFlares/SolarFlares.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
 flags_unshaded = true
 vertex_color_use_as_albedo = true
 
 [sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0.0158103, 0.648221, 0.750988 )
+offsets = PoolRealArray( 0.0158103, 0.300395, 0.58498 )
 colors = PoolColorArray( 1, 0, 0, 1, 1, 0.890625, 0, 1, 1, 0.997542, 0.977528, 1 )
 
 [sub_resource type="GradientTexture" id=3]
 gradient = SubResource( 2 )
 
-[sub_resource type="ParticlesMaterial" id=1]
-emission_shape = 2
-emission_box_extents = Vector3( 200, 200, 1 )
+[sub_resource type="ParticlesMaterial" id=4]
+emission_shape = 1
+emission_sphere_radius = 250.0
 direction = Vector3( 0, 0, 1 )
 spread = 15.41
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 246.78
-scale = 2.0
+initial_velocity = 400.0
+scale = 5.0
 scale_random = 1.0
 color_ramp = SubResource( 3 )
 
-[sub_resource type="QuadMesh" id=4]
+[sub_resource type="QuadMesh" id=5]
 
 [node name="SolarFlares" type="Particles"]
-material_override = SubResource( 5 )
-amount = 5000
-lifetime = 1.5
-preprocess = 20.71
+material_override = SubResource( 1 )
+amount = 10000
+lifetime = 4.0
 visibility_aabb = AABB( -4, -4, -58.0484, 8, 8, 116.097 )
-process_material = SubResource( 1 )
-draw_pass_1 = SubResource( 4 )
+process_material = SubResource( 4 )
+draw_pass_1 = SubResource( 5 )
+script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20.999, 20.644, 300 )

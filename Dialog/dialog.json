@@ -1,0 +1,12 @@
+{
+  "door_unlocked": {
+    "text": "It seems as if this ancient key holds the secrets beyond the gate."
+  },
+  "door_locked": {
+    "text": "This peculiar gate is locked, perhaps if I could gather a key?"
+  },
+  "spawn_reality": {
+    "text": "offf welcome back",
+    "time": 3
+  }
+}

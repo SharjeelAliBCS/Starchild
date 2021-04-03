@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Lighting/light_sphere.png" type="Texture" id=3]
@@ -308,6 +308,9 @@ tracks/0/keys = {
 "values": [ 32, 33, 34, 35, 36, 37 ]
 }
 
+[sub_resource type="RectangleShape2D" id=29]
+extents = Vector2( 12.523, 16.9732 )
+
 [node name="Player" type="KinematicBody2D"]
 scale = Vector2( 0.6, 0.6 )
 collision_mask = 3
@@ -319,7 +322,7 @@ scale = Vector2( 2, 1.5 )
 shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( -10.2159, -170.463 )
+position = Vector2( -6.01139, -96.1838 )
 current = true
 limit_left = 0
 limit_top = -2000
@@ -420,3 +423,12 @@ rotation = 3.14159
 scale = Vector2( 1, 100 )
 enabled = true
 collision_mask = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 29 )
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

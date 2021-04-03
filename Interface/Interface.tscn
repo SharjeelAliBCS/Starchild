@@ -4,7 +4,7 @@
 [ext_resource path="res://Interface/components/hydrogen_orb_counter/HydrogenOrbCounter.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Interface/components/unknown_secretion_counter/UnknownSecretionCounter.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Interface/components/KeyCounter/KeyCounter.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Interface/components/TextInfo/TextInfo.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Interface/Dialog/DialogPlayer.tscn" type="PackedScene" id=6]
 
 [node name="Interface" type="Control"]
 anchor_right = 1.0
@@ -26,13 +26,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextInfo" parent="CanvasLayer/NinePatchRect" instance=ExtResource( 5 )]
+[node name="DialogPlayer" parent="CanvasLayer/NinePatchRect" instance=ExtResource( 6 )]
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-margin_top = -43.0
-margin_right = 0.0
+margin_left = -20.0
+margin_top = -75.0
+margin_right = 20.0
 margin_bottom = 0.0
+rect_scale = Vector2( 0.75, 0.75 )
 
 [node name="Node2D" parent="CanvasLayer/NinePatchRect" instance=ExtResource( 1 )]
 scale = Vector2( 0.7, 0.7 )

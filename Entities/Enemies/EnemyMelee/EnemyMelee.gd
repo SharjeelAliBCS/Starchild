@@ -2,6 +2,7 @@ extends "../Enemy.gd"
 
 
 func _ready():
+	MOVEMENT_SPEED = 70
 	._ready()
 
 

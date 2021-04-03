@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Entities/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Soundtracks/Neostead - Breathing.wav" type="AudioStream" id=2]
 [ext_resource path="res://Assets/Graphics/Backgrounds/backgound_0.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Graphics/Backgrounds/VIMFF-parallax-mountains.png" type="Texture" id=4]
 [ext_resource path="res://Interface/Interface.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Menus/Menu/Menu.tscn" type="PackedScene" id=6]
 
 [node name="World" type="Node2D"]
 position = Vector2( 1, 0 )
@@ -47,6 +48,8 @@ color = Color( 0, 0, 0, 1 )
 [node name="Interface" parent="." instance=ExtResource( 5 )]
 margin_left = -1.0
 margin_right = -1.0
+
+[node name="Menu" parent="." instance=ExtResource( 6 )]
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )

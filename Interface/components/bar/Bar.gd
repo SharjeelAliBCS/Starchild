@@ -2,6 +2,7 @@ extends TextureProgress
 
 export var NAME =""
 
+var max_val =  100
 func _ready():
 	UpdateProgress()
 

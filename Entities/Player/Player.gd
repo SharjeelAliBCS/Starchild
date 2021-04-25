@@ -54,6 +54,8 @@ onready var raycast_attack = get_node("raycast_attack")
 func _ready():
 	can_infuse = true
 	playerStats = Global.playerStats
+	playerStats.life_rate = playerStats.default_life_rate
+	playerStats.lifespan = playerStats.max_lifespan
 	SwitchForms(false, true)
 
 func PlayAnimation():

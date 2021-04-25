@@ -2,14 +2,14 @@
 var saveDataInitial =  {
 	'player': {
 		'lifespan': 100,
-		'fusion_energy_rate': 15
+		'fusion_energy_rate': 20
 	},
 	'items': {
-		'hydrogen_orbs': 10,
+		'hydrogen_orbs': 0,
 		'unknown_secretions': 0,
-		'keys': 10
+		'keys': 0
 	},
-	'current_world': 'sol',
+	'current_world': 'reality',
 	'levels': {
 		'sol': {
 			'loaded_count': 0,
@@ -58,7 +58,16 @@ var saveDataInitial =  {
 			'player_position': [100,266],
 			'enemies': [],
 			'keys': [
-				{'id': 0, 'position': [3792.62,463.731] }
+				{'id': 0, 'position': [3792.62,463.731] },
+				{'id': 1, 'position': [1700, 725] },
+				{'id': 2, 'position': [1608, 1590] },
+				{'id': 3, 'position': [1082, 1487] },
+				{'id': 4, 'position': [1139, 1905] },
+				{'id': 5, 'position': [2673, 1579] },
+				{'id': 6, 'position': [4164, 1810] },
+				{'id': 7, 'position': [4564, 1620] },
+				{'id': 8, 'position': [3406, 1073] },
+				{'id': 9, 'position': [4400, 205] }
 			],
 			'doors': []
 		}

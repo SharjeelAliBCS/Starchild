@@ -17,6 +17,7 @@ func StartNewGame():
 	LoadData()
 
 func NewGame():
+	playerStats = preload("Entities/Player/PlayerStats.gd").new()
 	GlobalScenes.goto_story()
 
 func PlayEnding():

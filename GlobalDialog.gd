@@ -41,7 +41,9 @@ func ResetDialog():
 		current_dialog = ''
 		timeLimit = 0
 		timeLeft = 0
-		GlobalScenes.GetDialogBox().Close()
+		var node = GlobalScenes.GetDialogBox()
+		if(node!= null):
+			node.Close()
 		
 	
 	

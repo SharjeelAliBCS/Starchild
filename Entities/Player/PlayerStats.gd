@@ -12,7 +12,7 @@ var luminosity = 2
 
 var max_fusion_energy = 100
 var fusion_energy = 100
-var fusion_energy_rate = 15.0
+var fusion_energy_rate = 20.0
 
 var hydrogen_orbs = 0 
 var hydrogen_heal_amount = 100
@@ -44,7 +44,7 @@ func _ready():
 
 func NewLife():
 	is_dead = false
-	lifespan = 100.0
+	lifespan = max_lifespan
 	fusion_energy = 100
 	life_rate = 0
 	use_luminosity = false

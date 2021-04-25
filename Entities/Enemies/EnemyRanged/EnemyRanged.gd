@@ -12,6 +12,7 @@ func _ready():
 	attack_delay_rate = 2
 	tired_rate = 4
 	MAX_ATTACKS = 3
+	HEALTH = 40
 	._ready()
 
 func _physics_process(delta):

@@ -24,21 +24,10 @@ func clone_dict(source, target):
 	for key in source:
 		target[key] = source[key].duplicate()
 
-func cost_per_level(level):
-	return ceil(0.3*level)
-	
-func calc_cost(level):
-	var val = 0
-	for i in range(level-1):
-		val += cost_per_level(i+1)
-	return val
-	
 func set_cost():
 	print("added level is ", added_levels)
-	if(added_levels>0):
-		cost = calc_cost(curr_level)
-	else:
-		cost =  0
+	cost = added_levels
+	return added_levels
 	
 func _ready():
 	upgrade_nodes['lifespan'] = $Container/Center/skills/LifespanUpgrade
@@ -91,7 +80,7 @@ func SetLevel():
 	level.SetColor(added_levels > 0)
 
 func IncCurrLevel(key):
-	if(new_skills[key]['current_level']<new_skills[key]['values'].size()-1 and total-calc_cost(curr_level+1) >=0):
+	if(new_skills[key]['current_level']<new_skills[key]['values'].size()-1 and total-added_levels-1 >=0):
 		new_skills[key]['current_level']+=1
 		assign_node(key, true)
 		added_levels+=1

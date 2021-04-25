@@ -4,8 +4,8 @@ var velocity = Vector2()
 var speed = 200
 var TIME = 0
 var duration = 3
-var damage = 20
-var rotate_amount = 0.2
+var damage = 10
+var rotate_amount = 0.1
 export var FLOOR = Vector2(0,-1)
 
 func _ready():

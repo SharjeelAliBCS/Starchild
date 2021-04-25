@@ -108,7 +108,7 @@ func _runaway(delta):
 	if(ooze_dir == 'down'):
 		if(ooze.position.y>=MOVE_DOWN_DISTANCE):
 			ooze_dir = 'across'	
-			print("started moving across")
+			#print("started moving across")
 			ChangeMovementDirection(RUN_SPEED)
 			ooze.velocity  = Vector2(0,0)
 			ooze.rotation = deg2rad(180)

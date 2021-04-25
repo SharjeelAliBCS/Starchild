@@ -17,7 +17,10 @@ func _ready():
 
 func _on_Key_body_entered(body):
 	if "Player" in body.name:
-		
+		if (not Global.HasEncountered('key')):
+			GlobalDialog.ShowDialog("first_key")
+			Global.Encountered('key')
+			
 		GlobalScenes.RemoveSpawnable('keys', id)
 		print("and collected!")
 		GlobalScenes.current_scene.get_node("Player").playerStats.keys+=1

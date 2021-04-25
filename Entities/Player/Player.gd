@@ -92,7 +92,8 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("interact"):
 			if raycast_attack.is_colliding() and "Door" in raycast_attack.get_collider().name and playerStats.keys > 0:
-				
+				if(raycast_attack.get_collider().id == 5):
+					GlobalScenes.current_scene.LoadNewBackground()
 				GlobalScenes.RemoveSpawnable('doors', raycast_attack.get_collider().id)
 				raycast_attack.get_collider().queue_free()
 				playerStats.UseKey()
@@ -418,9 +419,9 @@ func onStopSfx(name):
 func _on_Area2D_body_entered(body):
 	if "foreground" in body.name:
 		playerStats.playerSafe = true
-		print("safe!")
+		#"safe!")
 
 
 func _on_Area2D_body_exited(body):
 	playerStats.playerSafe = false
-	print("oh no!")
+	#"oh no!")

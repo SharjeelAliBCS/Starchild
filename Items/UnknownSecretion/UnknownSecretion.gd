@@ -17,6 +17,9 @@ func _process(delta):
 	
 func _on_UnknownSecretion_body_entered(body):
 	if "Player" in body.name:
+		if (not Global.HasEncountered('unknown_secretion')):
+			GlobalDialog.ShowDialog("first_unknown_secretion")
+			Global.Encountered('unknown_secretion')
 		print("and collected!")
 		GlobalScenes.current_scene.get_node("Player").playerStats.unknown_secretions+=1
 		self.queue_free()

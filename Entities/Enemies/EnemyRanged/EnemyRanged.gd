@@ -26,7 +26,7 @@ func _physics_process(delta):
 
 func _attack(delta):
 	attack_frames+=1
-	print("attacking: ", TIME)
+	#"attacking: ", TIME)
 	
 func StartAttack():
 	attack_frames = 0
@@ -86,7 +86,7 @@ func fire():
 	var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
 	flipRays(player_pos.x < position.x)
 	
-	print("firing: ", attack_num)
+	#"firing: ", attack_num)
 	attack_delay_time_left = attack_delay_rate
 	STATE = '_shoot'
 	animation = '_idle'
@@ -107,7 +107,7 @@ func PlayerTooClose():
 	
 func StartRunning():
 	var player_pos = GlobalScenes.current_scene.get_node("Player").get_position()
-	print("started running")
+	#"started running")
 	STATE = '_runaway'
 	move_left = player_pos > position
 	prev_position = position

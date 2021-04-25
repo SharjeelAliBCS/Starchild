@@ -7,6 +7,8 @@ export var world = 'void'
 func _ready():
 	GlobalScenes.LoadScene(world)
 	GlobalScenes.current_scene.get_node("Player").SetInterfaceData()
+	if(GlobalScenes.GetWorldCount()==1):
+		GlobalDialog.ShowDialog("start_void")
 	SpawnData()
 	
 func SpawnData():
@@ -44,11 +46,11 @@ func _physics_process(delta):
 	if(GlobalScenes.current_scene.get_node("Player").playerStats.is_dead):
 		print("changed worlds")
 		Global.SaveGame('sol')
-		GlobalScenes.goto_scene("sol")
+		GlobalScenes.switch_dimensions("sol")
 		
 	if Input.is_action_just_pressed("open_portal") and GlobalScenes.current_scene.get_node("Player").playerStats.OpenPortal():
 		Global.SaveGame('reality')
-		GlobalScenes.goto_scene("reality")
+		GlobalScenes.switch_dimensions("reality")
 		
 	
 		

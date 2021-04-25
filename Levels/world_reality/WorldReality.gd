@@ -5,14 +5,25 @@ export var MAX_TIME = 5
 export var world = 'reality'
 
 var next_meteor_time
+var corrupted_background = load("res://Assets/Graphics/Backgrounds/backgound_sol_corrupted.png")
+var knowledge_found = false
+var knowledge_time = 5
+var knowledge_counter = 5
+onready var fade = get_node("Fade/Fade")
 
 func _ready():
 	GlobalScenes.LoadScene(world) 
 	GlobalScenes.current_scene.get_node("Player").SetInterfaceData()
 	
 	SetMeteorSpawnTimer()
-	GlobalDialog.ShowDialog("spawn_reality")
+	if(GlobalScenes.GetWorldCount()==0):
+		GlobalDialog.ShowDialog("start_reality")
 	SpawnData()
+	if(not GlobalScenes.SpawnableExists('doors', 5)):
+		LoadNewBackground()
+
+func LoadNewBackground():
+	get_node("Background/Sprite").set_texture(corrupted_background)
 	
 func SpawnData():
 	for enemy in GlobalScenes.worlds[world].enemies:
@@ -74,13 +85,36 @@ func SpawnMeteor():
 func _physics_process(delta):
 	timer+=delta
 	
+	blackHoleDialog()
+	knowledgeDialog()
+	
 	if(timer>=next_meteor_time):
 		SpawnMeteor()
+	
+	if(knowledge_found):
+		knowledge_counter-=delta
 		
-	if(GlobalScenes.current_scene.get_node("Player").playerStats.is_dead):
-		GlobalScenes.goto_scene("sol")
-	
+		if(knowledge_counter<=0):
+			var faded = get_node("Fade").StartFading(Color(0,0,0,0))
+			if(faded):
+				Global.PlayEnding()
+	else:
+		if(GlobalScenes.current_scene.get_node("Player").playerStats.is_dead):
+			GlobalScenes.switch_dimensions("sol")
+		
 	if Input.is_action_just_pressed("open_portal") and GlobalScenes.current_scene.get_node("Player").playerStats.OpenPortal():
-		GlobalScenes.goto_scene("void")
-	
-	
+		GlobalScenes.switch_dimensions("void")
+
+func blackHoleDialog():
+	if(get_node("Player").position.distance_to(Vector2(7300, 1000))<100 and
+	not Global.HasEncountered('vonubris')):
+		GlobalDialog.ShowDialog("vonubris")
+		Global.Encountered('vonubris')
+
+func knowledgeDialog():
+	if(get_node("Player").position.distance_to(Vector2(9450, 325))<100 and
+	not Global.HasEncountered('knowledge')):
+		GlobalDialog.ShowDialog("knowledge")
+		Global.Encountered('knowledge')
+		knowledge_found = true
+		knowledge_counter = knowledge_time

@@ -20,6 +20,9 @@ func _process(delta):
 	call(STATE, delta)
 
 func StartEnraging(time):
+	if (not Global.HasEncountered('solar_winds')):
+		GlobalDialog.ShowDialog("first_solar_winds")
+		Global.Encountered('solar_winds')
 	switchDuration = time
 	STATE  = '_startEnraging'
 	

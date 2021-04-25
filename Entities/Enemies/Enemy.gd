@@ -47,6 +47,7 @@ var animation = "_idle"
 var change_dir_delay = 0.2
 var change_dir_time = 0
 var id = 0
+var dialog_detect_radius = 200
 
 var TIME = 0
 func _ready():
@@ -54,6 +55,11 @@ func _ready():
 
 func _physics_process(delta):
 	
+	if(position.distance_to(GlobalScenes.current_scene.get_node("Player").position) < dialog_detect_radius
+		and (not Global.HasEncountered('enemy'))):
+		GlobalDialog.ShowDialog("first_enemy")
+		Global.Encountered('enemy')
+
 	PlayAnimation()
 	call(STATE, delta)
 	

@@ -1,8 +1,8 @@
-extends CenterContainer
+extends VBoxContainer
 #https://youtu.be/Jjv2MWbQVhs
-onready var load_game = $VBoxContainer/LoadGame/HBoxContainer/Selector
-onready var new_game = $VBoxContainer/NewGame/HBoxContainer/Selector
-onready var quit_game = $VBoxContainer/QuitGame/HBoxContainer/Selector
+onready var load_game = $LoadGame
+onready var new_game = $NewGame
+onready var quit_game = $QuitGame
 
 var current_selection = 0
 func _ready():
@@ -27,23 +27,10 @@ func _process(delta):
 			get_tree().quit()
 		
 func set_current_selection(_current_selection):
-	load_game.text = ''
-	new_game.text = ''
-	quit_game.text = ''
-	if(_current_selection == 0):
-		load_game.text = '>'
-	elif(_current_selection == 1):
-		new_game.text = '>'
-	elif(_current_selection == 2):
-		quit_game.text = '>'
-
-
-
-func _on_LoadGameButton_pressed():
-	Global.LoadGame()
-
-func _on_NewGameButton_pressed():
-	Global.NewGame()
-
-func _on_QuitGameButton_pressed():
-	get_tree().quit()
+	load_game.Selected(false)
+	new_game.Selected(false)
+	quit_game.Selected(false)
+	
+	load_game.Selected(_current_selection == 0)
+	new_game.Selected(_current_selection == 1)
+	quit_game.Selected(_current_selection == 2)

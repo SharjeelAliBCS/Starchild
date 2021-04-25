@@ -31,6 +31,6 @@ func _process(delta):
 func _on_Content_tab_changed(tab):
 	if(tab == 0):
 		toggle()
-	if(tab == 3):
+	if(tab == 2):
 		toggle()
 		GlobalScenes.goto_main()

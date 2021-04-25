@@ -5,8 +5,47 @@
   "door_locked": {
     "text": "This peculiar gate is locked, perhaps if I could gather a key?"
   },
+  "start_reality": {
+    "text": "Ah, old protector, Solnio. The Imperium have sent me here to retrive the texts that shall save you. I will not fail, for I am your humble child.",
+    "time": 6
+  },
+  "start_sol": {
+    "text": "What- where? Where am I? I- I perished... and yet I feel the warm presence of Solnio...",
+    "time": 5
+  },
+  "start_void": {
+    "text": "What? Solnio- no. It is gone. No light... That thing... It must be some advanced teleporter. It is too dark... Perhaps Solnio granted me light?",
+    "time": 6
+  },
   "spawn_reality": {
     "text": "offf welcome back",
     "time": 3
+  },
+  "first_enemy": {
+    "text": "Lowly scavengers, pirates. They answer to no one, not even the great Imperium. They will try to stop me.",
+    "time": 4
+  },
+  "first_unknown_secretion": {
+    "text": "What is this? No, I must control my emotions. Yet, I feel the sadness eminating from within this strange object. It is no meteorite.",
+    "time": 4
+  },
+  "first_hydrogen_orbs": {
+    "text": "I feel the power of the hydrogen atom undergoing fusion within this tiny star. Yet, how did these pirates gather such an item? Perhaps it can be more useful in my hands...",
+    "time": 6
+  },
+  "first_key": {
+    "text": "This key... it seems withered beyond measure. Perhaps, maybe... This could be used to open the gates...",
+    "time": 4
+  },
+  "first_solar_winds": {
+    "text": "Solnio... It's true power is unmatched... The winds of time shall turn my bones to ember, unless I hide.",
+    "time": 4
+  },
+  "vonubris": {
+    "text": "No.... This cannot be... Solnio- No- No. This can't- no. This is imposs-a black hole defied our might and- and devoured the stars? How can this be? Solnio, there is still time...",
+    "time": 10
+  },
+  "knowledge": {
+    "text": "The texts, they exist!... It says- wait- The black hole? Its name is Vonubris... it shall devour all Living Stars... no..., that can't be true... Solnio will die... And I have failed... "
   }
 }

@@ -7,6 +7,7 @@ onready var viewport_sprite = $ViewportSprite
 var viewport_initial_size = Vector2()
 
 func _ready():
+	pass
 	viewport_initial_size = viewport.size
 
 

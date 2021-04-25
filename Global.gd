@@ -6,18 +6,33 @@ var seedData = preload("res://Saves/SeedData.gd").new().saveDataInitial
 const FILE_NAME = 'res://Saves/savefile.json'
 
 var saveData = {}
+var STATE = 'opening'
 
 func _ready():
 	pass
-	
-func NewGame():
+
+func StartNewGame():
 	NewSave()
 	LoadSave()
 	LoadData()
 
+func NewGame():
+	GlobalScenes.goto_story()
+
+func PlayEnding():
+	STATE = 'ending'
+	GlobalScenes.goto_story()
+
+func FinishGame():
+	GlobalScenes.goto_main()
+	var dir = Directory.new()
+	dir.remove(FILE_NAME)
+	
 func LoadGame():
-	LoadSave()
-	LoadData()
+	if(LoadSave()):
+		LoadData()
+	else:
+		NewGame()
 		
 func LoadData():
 	GlobalScenes.current_world = saveData['current_world']
@@ -98,10 +113,12 @@ func LoadSave():
 		file.close()
 		if typeof(data) == TYPE_DICTIONARY:
 			saveData = data
+			return true
 		else:
 			printerr("Corrupted data!")
+			return false
 	else:
-		printerr("No saved data!")
+		return false
 
 func NewSave():
 	var file = File.new()
@@ -120,3 +137,9 @@ func OverwriteSave():
 	file.open(FILE_NAME, File.WRITE)
 	file.store_string(to_json(saveData))
 	file.close()
+
+func HasEncountered(key):
+	return saveData['encountered'][key]
+
+func Encountered(key):
+	saveData['encountered'][key] = true

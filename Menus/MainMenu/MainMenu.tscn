@@ -1,149 +1,82 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Fonts/conthrax-sb.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Menus/MainMenu/MainMenuOptions.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Graphics/Backgrounds/wallpaper.png" type="Texture" id=3]
+[ext_resource path="res://Interface/components/MainMenuButton/MainMenuButton.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
-size = 30
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=2]
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=3]
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=4]
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=5]
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=6]
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=7]
+size = 20
 font_data = ExtResource( 1 )
 
 [node name="MainMenu" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-margin_right = 533.0
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 268.541, 151.4 )
+scale = Vector2( 0.28, 0.28 )
+z_index = -5
+texture = ExtResource( 3 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 523.0
 margin_bottom = 300.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 155.0
-margin_top = 80.0
-margin_right = 377.0
-margin_bottom = 219.0
+[node name="CanvasLayer" type="CanvasLayer" parent="Control"]
+layer = 5
 
-[node name="Title" type="CenterContainer" parent="CenterContainer/VBoxContainer"]
-margin_right = 222.0
-margin_bottom = 37.0
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/Title"]
-margin_right = 222.0
-margin_bottom = 37.0
-custom_fonts/font = SubResource( 1 )
-text = "STARCHILD"
-
-[node name="MainMenuOptions" type="CenterContainer" parent="CenterContainer/VBoxContainer"]
-margin_top = 41.0
-margin_right = 222.0
-margin_bottom = 139.0
-script = ExtResource( 2 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions"]
-margin_left = 42.0
-margin_right = 180.0
-margin_bottom = 98.0
+[node name="MainMenuOptions" type="VBoxContainer" parent="Control/CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -148.0
+margin_top = -98.0
+margin_right = -10.0
 custom_constants/separation = 10
-
-[node name="LoadGame" type="CenterContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer"]
-margin_right = 138.0
-margin_bottom = 26.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/LoadGame"]
-margin_right = 138.0
-margin_bottom = 26.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Selector" type="Label" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/LoadGame/HBoxContainer"]
-margin_top = 3.0
-margin_right = 10.0
-margin_bottom = 23.0
-rect_min_size = Vector2( 10, 0 )
-custom_fonts/font = SubResource( 2 )
-text = ">"
-
-[node name="LoadGameButton" type="Button" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/LoadGame/HBoxContainer"]
-margin_left = 14.0
+[node name="LoadGame" parent="Control/CanvasLayer/MainMenuOptions" instance=ExtResource( 4 )]
 margin_right = 138.0
 margin_bottom = 26.0
-rect_min_size = Vector2( 124, 0 )
-custom_fonts/font = SubResource( 3 )
-text = "Continue"
+id = "Continue"
 
-[node name="NewGame" type="CenterContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer"]
+[node name="NewGame" parent="Control/CanvasLayer/MainMenuOptions" instance=ExtResource( 4 )]
 margin_top = 36.0
 margin_right = 138.0
 margin_bottom = 62.0
+id = "New Game"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/NewGame"]
-margin_right = 138.0
-margin_bottom = 26.0
-
-[node name="Selector" type="Label" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/NewGame/HBoxContainer"]
-margin_top = 3.0
-margin_right = 10.0
-margin_bottom = 23.0
-rect_min_size = Vector2( 10, 0 )
-custom_fonts/font = SubResource( 4 )
-text = ">"
-
-[node name="NewGameButton" type="Button" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/NewGame/HBoxContainer"]
-margin_left = 14.0
-margin_right = 138.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 124, 0 )
-custom_fonts/font = SubResource( 5 )
-text = "New Game"
-
-[node name="QuitGame" type="CenterContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer"]
+[node name="QuitGame" parent="Control/CanvasLayer/MainMenuOptions" instance=ExtResource( 4 )]
 margin_top = 72.0
 margin_right = 138.0
 margin_bottom = 98.0
+id = "Quit"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/QuitGame"]
-margin_right = 138.0
-margin_bottom = 26.0
-
-[node name="Selector" type="Label" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/QuitGame/HBoxContainer"]
-margin_top = 3.0
-margin_right = 10.0
-margin_bottom = 23.0
-rect_min_size = Vector2( 10, 0 )
-custom_fonts/font = SubResource( 6 )
-text = ">"
-
-[node name="QuitGameButton" type="Button" parent="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/QuitGame/HBoxContainer"]
-margin_left = 14.0
-margin_right = 138.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 124, 0 )
-custom_fonts/font = SubResource( 7 )
-text = "Quit Game"
-align = 0
+[node name="Title" type="CenterContainer" parent="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -150.0
+margin_bottom = 25.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/LoadGame/HBoxContainer/LoadGameButton" to="CenterContainer/VBoxContainer/MainMenuOptions" method="_on_LoadGameButton_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/NewGame/HBoxContainer/NewGameButton" to="CenterContainer/VBoxContainer/MainMenuOptions" method="_on_NewGameButton_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenuOptions/VBoxContainer/QuitGame/HBoxContainer/QuitGameButton" to="CenterContainer/VBoxContainer/MainMenuOptions" method="_on_QuitGameButton_pressed"]
+
+[node name="Label" type="Label" parent="Control/Title"]
+margin_left = 1.0
+margin_right = 149.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 1 )
+text = "STARCHILD"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 523.0
+margin_bottom = 300.0

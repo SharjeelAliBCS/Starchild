@@ -28,6 +28,8 @@ export var world = 'sol'
 
 var STATE = '_noSolarFlares'
 
+var curr_time = 0
+var enrage_delay = 10
 func _ready():
 	GlobalScenes.LoadScene(world) 
 	GlobalScenes.current_scene.get_node("Player").playerStats.NewLife()
@@ -37,11 +39,15 @@ func _ready():
 	solarFlaresSfx.play()
 	solarFlaresSfx.set_volume_db(min_wind_sound)
 	
+	var c = GlobalScenes.GetWorldCount()
+	if(GlobalScenes.GetWorldCount()==1):
+		GlobalDialog.ShowDialog("start_sol")
+	
 func _physics_process(delta):
 	timer+=delta
-	
+	curr_time += delta
 	if(GlobalScenes.current_scene.get_node("Player").playerStats.is_dead):
-		GlobalScenes.goto_scene("sol")
+		GlobalScenes.switch_dimensions("sol")
 	
 	call(STATE, delta)
 
@@ -49,7 +55,7 @@ func _physics_process(delta):
 func _noSolarFlares(delta):
 	solar_flares_delay_timer -= delta
 	
-	if(solar_flares_delay_timer<=0):
+	if(solar_flares_delay_timer<=0 && curr_time>enrage_delay):
 		startEnraging_timer = startEnraging_duration
 		solnio.StartEnraging(startEnraging_duration)
 		STATE = '_startEnraging'

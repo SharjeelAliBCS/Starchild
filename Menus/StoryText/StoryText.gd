@@ -40,7 +40,6 @@ func _unhandled_key_input(event):
 func _process(delta):
 	var pos = label.get_position()
 	label.set_position(Vector2(pos.x, pos.y - delta*15))
-	print(pos)
 	if(pos.y < -310):
 		Global.StartNewGame()
 		

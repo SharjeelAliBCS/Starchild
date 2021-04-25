@@ -9,7 +9,7 @@ var saveDataInitial =  {
 		'unknown_secretions': 0,
 		'keys': 10
 	},
-	'current_world': 'reality',
+	'current_world': 'sol',
 	'levels': {
 		'sol': {
 			'loaded_count': 0,
@@ -20,7 +20,7 @@ var saveDataInitial =  {
 		},
 		'reality': {
 			'loaded_count': 0,
-			'player_position': [6900,325],
+			'player_position': [30,290],
 			'enemies': [
 				{'id': 0, 'position': [1607,293], 'type': 'melee' },
 				{'id': 1, 'position': [2730, 668], 'type': 'ranged' },

@@ -327,7 +327,7 @@ current = true
 limit_left = 0
 limit_top = -2000
 limit_right = 12800
-limit_bottom = 1050
+limit_bottom = 3050
 smoothing_enabled = true
 smoothing_speed = 10.0
 

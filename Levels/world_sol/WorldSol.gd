@@ -3,7 +3,7 @@ extends Node2D
 export var timer = 0
 export var MAX_TIME = 5
 
-export var solar_flares_duration = 5
+export var solar_flares_duration = 3
 export var solar_flares_duration_timer = 0
 
 
@@ -26,11 +26,14 @@ var max_wind_sound = 0
 var current_wind_sound = min_wind_sound
 export var world = 'sol'
 
+var time_to_complete = 60
+
 var STATE = '_noSolarFlares'
 
 var curr_time = 0
 var enrage_delay = 10
 func _ready():
+	get_node("Fade").fade_time = 30
 	GlobalScenes.LoadScene(world) 
 	GlobalScenes.current_scene.get_node("Player").playerStats.NewLife()
 	GlobalScenes.current_scene.get_node("Player").SetInterfaceData()
@@ -49,6 +52,13 @@ func _physics_process(delta):
 	if(GlobalScenes.current_scene.get_node("Player").playerStats.is_dead):
 		GlobalScenes.switch_dimensions("sol")
 	
+	print("time is ", curr_time)
+	if(timer>=time_to_complete):
+		var faded = get_node("Fade").StartFading(Color(1,1,1,0))
+		if(faded):
+			Global.PlayEnding()
+			#Global.playerStats.Damage(1000)
+
 	call(STATE, delta)
 
 

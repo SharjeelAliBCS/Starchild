@@ -7,7 +7,6 @@ var scale_time = 10
 var enemies = {}
 func _ready():
 	scale = Vector2(0,0)
-	print("time is ", TIME)
 
 func _process(delta):
 	timer+= delta

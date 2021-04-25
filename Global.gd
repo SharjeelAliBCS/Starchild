@@ -21,12 +21,13 @@ func NewGame():
 
 func PlayEnding():
 	STATE = 'ending'
+	var dir = Directory.new()
+	dir.remove(FILE_NAME)
 	GlobalScenes.goto_story()
 
 func FinishGame():
 	GlobalScenes.goto_main()
-	var dir = Directory.new()
-	dir.remove(FILE_NAME)
+	STATE = 'opening'
 	
 func LoadGame():
 	if(LoadSave()):

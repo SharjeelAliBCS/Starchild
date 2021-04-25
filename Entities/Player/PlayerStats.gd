@@ -79,20 +79,23 @@ func Update(delta):
 	if(lifespan==0):
 		is_dead = true
 	
-	fusion_energy =min(fusion_energy+fusion_energy_rate*delta,max_fusion_energy)
+	if(life_rate>0):
+		fusion_energy =min(fusion_energy+fusion_energy_rate*delta,max_fusion_energy)
+	else:
+		fusion_energy =min(fusion_energy+fusion_energy_rate*2.5*delta,max_fusion_energy)
 	#sprite_material.set_shader_param("Flash", true)
 
 func Damage(dmg):
 	if(not playerDodging):
 		lifespan  = max(lifespan-dmg, 0)
 		GlobalScenes.current_scene.get_node("Player").SetSpriteFlash()
-	
+
 func UseSolAbility():
 	var ability_rate = sol_rate
 	if(life_rate>0):
 		ability_rate = ability_rate /life_rate
 	else:
-		ability_rate = ability_rate*2
+		ability_rate = ability_rate*2.1
 	ability_rate = -4*(pow(3, -ability_rate/5))+4.5
 	
 	return DecreaseFusionEnergy(ability_rate)

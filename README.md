@@ -7,7 +7,7 @@ Sprite particles:
 
 https://opengameart.org/content/smoke-particle-assets
 https://lpc.opengameart.org/comment/59828
-https://opengameart.org/content/platformer-animations
+Enemy sprites: https://opengameart.org/content/platformer-animations: Clint Bellanger
 
 ## Music
 https://opengameart.org/content/mystical-piano

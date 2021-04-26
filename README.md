@@ -1,5 +1,11 @@
 # Starchild
 
+This game will take you about 20 - 30 min to complete on average.
+
+## Controls
+
+[A] - move left
+[B] - move right
 
 ## Sources
 
@@ -8,7 +14,7 @@ Everything in the game was created by me, unless the source was listed below:
 Sprite particles: https://opengameart.org/content/smoke-particle-assets
 https://lpc.opengameart.org/comment/59828
 
-Enemy sprites: https://opengameart.org/content/platformer-animations: Clint Bellanger
+Enemy sprites (And base template for the player sprite): https://opengameart.org/content/platformer-animations: Clint Bellanger
 
 ## Fonts
 

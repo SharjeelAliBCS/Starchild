@@ -18,6 +18,8 @@ This game will take you about 20 - 30 min to complete on average.
 
 [E] - Use doors
 
+[R] - Heal (Requires hydrogen orbs)
+
 [Q] - Teleport between Void and Reality (Need to have unknown secretions)
 
 [LEFT-MOUSE] - attack
@@ -28,7 +30,7 @@ This game will take you about 20 - 30 min to complete on average.
 
 ## Sources
 
-Everything in the game was created by me, unless the source was listed below:
+Every art asset in the game was created by me, unless the source was listed below:
 
 ### Sprites
 Sprite particles: https://opengameart.org/content/smoke-particle-assets

@@ -18,6 +18,12 @@ This game will take you about 20 - 30 min to complete on average.
 
 [E] - Use doors
 
+[LEFT-MOUSE] - attack
+
+[RIGHT-MOUSE] - use blinding light (Must unlock first)
+
+[SCROLL-WHEEL] - Increase/decrease life rate
+
 ## Sources
 
 Everything in the game was created by me, unless the source was listed below:

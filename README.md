@@ -18,6 +18,8 @@ This game will take you about 20 - 30 min to complete on average.
 
 [E] - Use doors
 
+[Q] - Teleport between Void and Reality (Need to have unknown secretions)
+
 [LEFT-MOUSE] - attack
 
 [RIGHT-MOUSE] - use blinding light (Must unlock first)

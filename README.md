@@ -5,7 +5,18 @@ This game will take you about 20 - 30 min to complete on average.
 ## Controls
 
 [A] - move left
-[B] - move right
+
+[D] - move right
+
+[SPACE] - jump (hold for greater height)
+
+[SHIFT] - dodge
+
+[CTRL] - Activate/decative sol form
+
+[ESC] - Pause menu
+
+[E] - Use doors
 
 ## Sources
 

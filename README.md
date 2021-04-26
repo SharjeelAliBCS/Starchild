@@ -3,11 +3,16 @@
 
 ## Sources
 
-Sprite particles:
+Everything in the game was created by me, unless the source was listed below:
 
-https://opengameart.org/content/smoke-particle-assets
+Sprite particles: https://opengameart.org/content/smoke-particle-assets
 https://lpc.opengameart.org/comment/59828
+
 Enemy sprites: https://opengameart.org/content/platformer-animations: Clint Bellanger
+
+## Fonts
+
+https://www.dafont.com/conthrax.font
 
 ## Music
 https://opengameart.org/content/mystical-piano

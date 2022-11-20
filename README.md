@@ -1,6 +1,23 @@
-# Starchild
+![Alt text](readme_sources/header.PNG)
+
+Authors: SHARJEEL ALI
+
+## Overview
+
+Starchild is a game developed for a class project in COMP-4501 at Carleton University. The game itself is a 2D platformer story focused game developed in Godot where the player must traverse through three different dimensions to reach the ending of the story. Throughout the player's journey, they will encounter many forms of enemies, each unique to their dimension, and must either defeat or evade them to survive using their unique, upgradable abilities.
 
 This game will take you about 20 - 30 min to complete on average.
+
+# Table of Contents
+1. [Story](#story)
+2. [Controls](#controls)
+3. [Screenshots and Gameplay](#screenshots-and-gameplay)
+4. [Structure](#structure)
+5. [Sources](#sources)
+
+## Story
+
+Starchild is a game that takes place far, far in the future, in a time when humankind is governed by an order known as the *Imperium*. For many generations, the Imperium have worshipped the *Living Stars*, and thus bask in their power. However, slowly, one by one, the stars have faded, dying. Yet no one knows why. That is, until the player, the *Priest of Solnio* has been sent to prevent the death of the last Living Star, *Solnio*, and uncover the truth behind this heat death.
 
 ## Controls
 
@@ -27,6 +44,34 @@ This game will take you about 20 - 30 min to complete on average.
 [RIGHT-MOUSE] - use blinding light (Must unlock first)
 
 [SCROLL-WHEEL] - Increase/decrease life rate
+
+## Screenshots and Gameplay
+
+Gameplay
+
+![Alt text](readme_sources/gameplay.gif)
+
+Main Menu
+
+![Alt text](readme_sources/title.PNG)
+
+Dialogue
+
+![Alt text](readme_sources/dialogue.PNG)
+
+Leveling
+
+![Alt text](readme_sources/leveling.PNG)
+
+## Structure
+
+Node Connections
+
+![Alt text](readme_sources/relationships.PNG)
+
+Code structure
+
+![Alt text](readme_sources/structure.PNG)
 
 ## Sources
 
